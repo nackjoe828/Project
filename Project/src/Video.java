@@ -5,6 +5,7 @@ public class Video {
 	public Video() {
 		try{
 			Model model = new Model();
+			System.out.println(model.select("select * from user"));
 			model.close();
 		}catch(Exception e){}
 	}

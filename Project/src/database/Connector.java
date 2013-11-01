@@ -25,14 +25,20 @@ class Connector {
 	public String select(String query) throws Exception{
 		PreparedStatement pstmt = null;
 		pstmt = conn.prepareStatement(query);
-		return this.getResult(pstmt.executeQuery());
+		return this.getTableInString(pstmt.executeQuery());
 	}
 	
-	private String getResult(ResultSet rs) throws Exception{
+	private String getTableInString(ResultSet rs) throws Exception{
 		String ret = "";
+		ResultSetMetaData rsmd = rs.getMetaData();
+		int columnCount = rsmd.getColumnCount();
+		System.out.println(columnCount);
 		while(rs.next()){
-			ret += rs.getInt("uid") + "\t" + rs.getString("name")
-					+ "\t" + rs.getString("email") + "\n";
+			for(int i = 1; i <= columnCount; i++){
+				ret += rs.getString(i) + "\t";
+			}
+			ret = ret.trim();
+			ret += "\n";
 		}
 		return ret;
 	}
