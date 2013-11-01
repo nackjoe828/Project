@@ -23,8 +23,14 @@ class Connector {
 	}
 	
 	public String select(String query) throws Exception{
+		String[] arr = query.split(":");
 		PreparedStatement pstmt = null;
-		pstmt = conn.prepareStatement(query);
+		pstmt = conn.prepareStatement(arr[0]);
+		int i = 1;
+		while(i < arr.length){
+			pstmt.setString(i, arr[i]);
+			i++;
+		}
 		return this.getTableInString(pstmt.executeQuery());
 	}
 	
