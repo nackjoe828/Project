@@ -22,6 +22,21 @@ class Connector {
 		}
 	}
 	
+	public String select(String query) throws Exception{
+		PreparedStatement pstmt = null;
+		pstmt = conn.prepareStatement(query);
+		return this.getResult(pstmt.executeQuery());
+	}
+	
+	private String getResult(ResultSet rs) throws Exception{
+		String ret = "";
+		while(rs.next()){
+			ret += rs.getInt("uid") + "\t" + rs.getString("name")
+					+ "\t" + rs.getString("email") + "\n";
+		}
+		return ret;
+	}
+	
 	public void close(){
 		try{
 			conn.close();

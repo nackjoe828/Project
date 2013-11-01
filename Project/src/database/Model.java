@@ -7,6 +7,10 @@ public class Model {
 		connector = new Connector();
 	}
 	
+	public String select(String query) throws Exception{
+		return connector.select(query);
+	}
+	
 	/**
 	 * call close method in Connector
 	 */

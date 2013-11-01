@@ -3,8 +3,10 @@ import java.sql.*;
 
 public class Video {
 	public Video() {
-		Model model = new Model();
-		model.close();
+		try{
+			Model model = new Model();
+			model.close();
+		}catch(Exception e){}
 	}
 	
 	public static void main(String[] args) {
