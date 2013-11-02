@@ -4,12 +4,15 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 
 import javax.swing.JFrame;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
+import view.body.BodyPanel;
+import view.navigation.NavigationPanel;
 import control.Controller;
-import control.SourceType;
 import database.Model;
 
-public class MainFrame extends JFrame{
+public class MainFrame extends JFrame implements ChangeListener{
 	public static final int WIDTH = 500;
 	public static final int HEIGHT = 500;
 	
@@ -24,9 +27,10 @@ public class MainFrame extends JFrame{
 		this.setTitle("Video");
 		this.setLayout(new BorderLayout());
 		this.controller = controller;
+		this.controller.addListener(this);
 		
 		nPanel = new NavigationPanel(this);
-		bPanel = new BodyPanel(controller);
+		bPanel = new BodyPanel(this);
 		
 		this.add(BorderLayout.WEST, nPanel);
 		this.add(BorderLayout.CENTER, bPanel);
@@ -35,12 +39,25 @@ public class MainFrame extends JFrame{
         this.setVisible(true);
 	}
 	
-	public void sendMessage(SourceType type){
+	public void sendMessage(ButtonSourceType type){
 		controller.show(type);
 	}
 	
-	public void switchPage(SourceType type){
+	public void switchPage(ButtonSourceType type){
 		nPanel.switchNavigation(type);
 		bPanel.switchBody(type);
+	}
+	
+	public boolean isUser(){
+		return bPanel.isUser();
+	}
+	
+	public String getResult(){
+		return controller.getResult();
+	}
+
+	@Override
+	public void stateChanged(ChangeEvent e) {
+		bPanel.showResult(getResult());
 	}
 }

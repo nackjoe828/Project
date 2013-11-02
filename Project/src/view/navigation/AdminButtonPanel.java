@@ -1,4 +1,4 @@
-package view;
+package view.navigation;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -8,10 +8,11 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import view.MainFrame;
+import view.ButtonSourceType;
 import control.Controller;
-import control.SourceType;
 import database.Model;
-import static control.SourceType.*;
+import static view.ButtonSourceType.*;
 
 public class AdminButtonPanel extends JPanel{
 	private JButton user;
@@ -37,7 +38,7 @@ public class AdminButtonPanel extends JPanel{
 		user.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				mainFrame.sendMessage(SourceType.USER);
+				mainFrame.sendMessage(ButtonSourceType.USER);
 			}
 		});
 		this.add(user);
@@ -48,7 +49,7 @@ public class AdminButtonPanel extends JPanel{
 		history.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				mainFrame.sendMessage(SourceType.HISTORY);
+				mainFrame.sendMessage(ButtonSourceType.HISTORY);
 			}
 		});
 		this.add(history);
@@ -59,7 +60,7 @@ public class AdminButtonPanel extends JPanel{
 		video.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				mainFrame.sendMessage(SourceType.VIDEO);
+				mainFrame.sendMessage(ButtonSourceType.VIDEO);
 			}
 		});
 		this.add(video);
@@ -70,7 +71,7 @@ public class AdminButtonPanel extends JPanel{
 		favorites.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				mainFrame.sendMessage(SourceType.FAVORITES);
+				mainFrame.sendMessage(ButtonSourceType.FAVORITES);
 			}
 		});
 		this.add(favorites);
@@ -81,7 +82,7 @@ public class AdminButtonPanel extends JPanel{
 		channel.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				mainFrame.sendMessage(SourceType.CHANNEL);
+				mainFrame.sendMessage(ButtonSourceType.CHANNEL);
 			}
 		});
 		this.add(channel);

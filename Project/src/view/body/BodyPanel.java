@@ -1,4 +1,4 @@
-package view;
+package view.body;
 
 import java.awt.Color;
 import java.awt.FlowLayout;
@@ -8,47 +8,51 @@ import javax.swing.JTextArea;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import view.MainFrame;
+import view.ButtonSourceType;
 import control.Controller;
-import control.SourceType;
 import database.Model;
 
-public class BodyPanel extends JPanel implements ChangeListener{
+public class BodyPanel extends JPanel{
 	public static final int WIDTH = 500;
 	public static final int HEIGHT = 300;
 	
 	private JTextArea textarea1;
 	private JTextArea textarea2;
-	private Controller controller;
+	private MainFrame mainFrame;
+	private LoginRegisterPanel lrPanel;
 	
-	public BodyPanel(Controller controller){
+	public BodyPanel(MainFrame mainFrame){
 		super();
-		this.controller = controller;
-		controller.addListener(this);
-		//this.setSize(WIDTH, HEIGHT);
-		this.setBackground(Color.DARK_GRAY);
+		this.mainFrame = mainFrame;
 		textarea1 = new JTextArea("Table will be printed here. t1");
 		textarea2 = new JTextArea("Table will be printed here. t2");
+		lrPanel = new LoginRegisterPanel(mainFrame);
+		this.add(lrPanel);
 	}
 	
-	public void switchBody(SourceType type){
+	public void switchBody(ButtonSourceType type){
+		this.removeAll();
 		switch (type){
 		case LOGIN:
-			this.removeAll();
-			this.add(textarea2);
+		case REGISTER:
+			this.add(textarea1);
 			break;
 		case LOGOUT:
-			this.removeAll();
-			this.add(textarea1);
+			this.add(lrPanel);
 			break;
 		default:
 			break;
 		}
 		this.revalidate();
 	}
-
-	@Override
-	public void stateChanged(ChangeEvent e) {
-		textarea1.setText(controller.getResult());
+	
+	public boolean isUser(){
+		return lrPanel.isUser();
+	}
+	
+	public void showResult(String result){
+		textarea1.setText(result);
 		this.repaint();
 	}
 }

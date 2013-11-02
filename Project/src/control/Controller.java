@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import view.ButtonSourceType;
 import database.Model;
 
 public class Controller {
@@ -17,7 +18,7 @@ public class Controller {
 		listener = new ArrayList<ChangeListener>();
 	}
 	
-	public void show(SourceType type){
+	public void show(ButtonSourceType type){
 		try{
 			switch (type){
 			case USER:

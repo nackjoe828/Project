@@ -22,8 +22,17 @@ class Connector {
 		}
 	}
 	
+	public int update(String query) throws Exception{
+		String[] arr = query.split(":");
+		return this.prepareStatement(arr).executeUpdate();
+	}
+	
 	public String select(String query) throws Exception{
 		String[] arr = query.split(":");
+		return this.getTableInString(this.prepareStatement(arr).executeQuery());
+	}
+	
+	private PreparedStatement prepareStatement(String[] arr) throws Exception{
 		PreparedStatement pstmt = null;
 		pstmt = conn.prepareStatement(arr[0]);
 		int i = 1;
@@ -31,7 +40,7 @@ class Connector {
 			pstmt.setString(i, arr[i]);
 			i++;
 		}
-		return this.getTableInString(pstmt.executeQuery());
+		return pstmt;
 	}
 	
 	private String getTableInString(ResultSet rs) throws Exception{

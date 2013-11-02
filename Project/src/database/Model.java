@@ -14,6 +14,10 @@ public class Model {
 		result = "";
 	}
 	
+	public int update(String query) throws Exception{
+		return connector.update(query);
+	}
+	
 	public void select(String query) throws Exception{
 		result = connector.select(query);
 	}
