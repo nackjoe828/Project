@@ -20,11 +20,11 @@ public class AdminButtonPanel extends JPanel{
 	private JButton video;
 	private JButton favorites;
 	private JButton channel;
-	private MainFrame mainFrame;
+	private NavigationPanel nPanel;
 	
-	public AdminButtonPanel(MainFrame mainFrame){
+	public AdminButtonPanel(NavigationPanel nPanel){
 		super();
-		this.mainFrame = mainFrame;
+		this.nPanel = nPanel;
 		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		this.addUserButton();
 		this.addHistoryButton();
@@ -38,7 +38,7 @@ public class AdminButtonPanel extends JPanel{
 		user.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				mainFrame.sendMessage(ButtonSourceType.USER);
+				nPanel.sendMessage(ButtonSourceType.USER);
 			}
 		});
 		this.add(user);
@@ -49,7 +49,7 @@ public class AdminButtonPanel extends JPanel{
 		history.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				mainFrame.sendMessage(ButtonSourceType.HISTORY);
+				nPanel.sendMessage(ButtonSourceType.HISTORY);
 			}
 		});
 		this.add(history);
@@ -60,7 +60,7 @@ public class AdminButtonPanel extends JPanel{
 		video.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				mainFrame.sendMessage(ButtonSourceType.VIDEO);
+				nPanel.sendMessage(ButtonSourceType.VIDEO);
 			}
 		});
 		this.add(video);
@@ -71,7 +71,7 @@ public class AdminButtonPanel extends JPanel{
 		favorites.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				mainFrame.sendMessage(ButtonSourceType.FAVORITES);
+				nPanel.sendMessage(ButtonSourceType.FAVORITES);
 			}
 		});
 		this.add(favorites);
@@ -82,7 +82,7 @@ public class AdminButtonPanel extends JPanel{
 		channel.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				mainFrame.sendMessage(ButtonSourceType.CHANNEL);
+				nPanel.sendMessage(ButtonSourceType.CHANNEL);
 			}
 		});
 		this.add(channel);

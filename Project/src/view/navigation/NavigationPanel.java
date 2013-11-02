@@ -32,16 +32,16 @@ public class NavigationPanel extends JPanel{
 		this.createRegisterButton();
 		this.createLoginButton();
 		this.createLogoutButton();
-		abPanel = new AdminButtonPanel(mainFrame);
-		ubPanel = new UserButtonPanel(mainFrame);
+		abPanel = new AdminButtonPanel(this);
+		ubPanel = new UserButtonPanel(this);
 		
 		this.add(label);
 		this.add(login);
 		this.add(register);
 	}
 	
-	private void setUsername(String username){
-		label.setText(username);
+	public void sendMessage(ButtonSourceType type){
+		mainFrame.sendMessage(type);
 	}
 	
 	private void createRegisterButton(){
@@ -80,7 +80,11 @@ public class NavigationPanel extends JPanel{
 		switch (type){
 		case LOGIN:
 		case REGISTER:
-			if(mainFrame.isUser()) this.add(ubPanel);
+			if(mainFrame.isUser()) {
+				this.add(ubPanel);
+				mainFrame.setUser();
+				label.setText(mainFrame.getUser());
+			}
 			else this.add(abPanel);
 			this.add(logout);
 			break;

@@ -43,6 +43,12 @@ public class Controller {
 		notifyListener();
 	}
 	
+	public void select(String query){
+		try{
+			model.select(query);
+		}catch(Exception e){}
+	}
+	
 	public String getResult(){
 		return model.getResult();
 	}

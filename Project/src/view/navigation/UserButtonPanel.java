@@ -12,11 +12,11 @@ import view.MainFrame;
 
 public class UserButtonPanel extends JPanel{
 	private JButton search;
-	private MainFrame mainFrame;
+	private NavigationPanel nPanel;
 	
-	public UserButtonPanel(MainFrame mainFrame){
+	public UserButtonPanel(NavigationPanel nPanel){
 		super();
-		this.mainFrame = mainFrame;
+		this.nPanel = nPanel;
 		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		this.addSearchButton();
 	}
@@ -26,7 +26,7 @@ public class UserButtonPanel extends JPanel{
 		search.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				mainFrame.sendMessage(ButtonSourceType.SEARCH);
+				nPanel.sendMessage(ButtonSourceType.SEARCH);
 			}
 		});
 		this.add(search);

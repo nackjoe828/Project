@@ -19,6 +19,7 @@ public class MainFrame extends JFrame implements ChangeListener{
 	private Controller controller;
 	private NavigationPanel nPanel;
 	private BodyPanel bPanel;
+	private String user;
 	
 	public MainFrame(Controller controller) throws Exception{
 		super();
@@ -50,6 +51,15 @@ public class MainFrame extends JFrame implements ChangeListener{
 	
 	public boolean isUser(){
 		return bPanel.isUser();
+	}
+	
+	public void setUser(){
+		controller.select(bPanel.getQuery());
+		user = getResult();
+	}
+	
+	public String getUser(){
+		return user;
 	}
 	
 	public String getResult(){

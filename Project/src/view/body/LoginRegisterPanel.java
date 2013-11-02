@@ -6,19 +6,20 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import view.MainFrame;
+import view.QueryGenerator;
 
-public class LoginRegisterPanel extends JPanel{
+public class LoginRegisterPanel extends JPanel implements QueryGenerator{
 	private JLabel uidLabel;
 	private JLabel nameLabel;
 	private JLabel emailLabel;
 	private JTextField uid;
 	private JTextField name;
 	private JTextField email;
-	private MainFrame mainFrame;
+	private BodyPanel bPanel;
 	
-	public LoginRegisterPanel(MainFrame mainFrame){
+	public LoginRegisterPanel(BodyPanel bPanel){
 		super();
-		this.mainFrame = mainFrame;
+		this.bPanel = bPanel;
 		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		this.createUidPanel();
 		this.createNamePanel();
@@ -60,7 +61,7 @@ public class LoginRegisterPanel extends JPanel{
 	 * @return
 	 */
 	public boolean isUser(){
-		return getName().equals("user");
+		return !getUid().equals("admin");
 	}
 	
 	public String getUid(){
@@ -73,5 +74,14 @@ public class LoginRegisterPanel extends JPanel{
 	
 	public String getEmail(){
 		return email.getText();
+	}
+
+	@Override
+	public String generateQuery() {
+		String query = "select * from user where ";
+		if(!getUid().isEmpty()) query += "uid = ?:" + getUid();
+		else if(!getName().isEmpty()) query += "name = ?:" + getName();
+		else query += "email = ?:" + getEmail();
+		return query;
 	}
 }

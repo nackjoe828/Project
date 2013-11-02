@@ -22,12 +22,13 @@ public class BodyPanel extends JPanel{
 	private MainFrame mainFrame;
 	private LoginRegisterPanel lrPanel;
 	
+	
 	public BodyPanel(MainFrame mainFrame){
 		super();
 		this.mainFrame = mainFrame;
 		textarea1 = new JTextArea("Table will be printed here. t1");
 		textarea2 = new JTextArea("Table will be printed here. t2");
-		lrPanel = new LoginRegisterPanel(mainFrame);
+		lrPanel = new LoginRegisterPanel(this);
 		this.add(lrPanel);
 	}
 	
@@ -49,6 +50,10 @@ public class BodyPanel extends JPanel{
 	
 	public boolean isUser(){
 		return lrPanel.isUser();
+	}
+	
+	public String getQuery(){
+		return lrPanel.generateQuery();
 	}
 	
 	public void showResult(String result){
