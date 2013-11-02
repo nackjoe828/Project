@@ -1,34 +1,45 @@
 package database;
 
+import java.util.ArrayList;
+
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+
 public class Model {
 	private Connector connector;
+	private String result;
 	
 	public Model(){
 		connector = new Connector();
+		result = "";
 	}
 	
-	public String select(String query) throws Exception{
-		return connector.select(query);
+	public void select(String query) throws Exception{
+		result = connector.select(query);
 	}
 	
-	public String getUser() throws Exception{
-		return connector.select("select * from user");
+	public void getUser() throws Exception{
+		result = connector.select("select * from user");
 	}
 	
-	public String getHistory() throws Exception{
-		return connector.select("select * from history");
+	public void getHistory() throws Exception{
+		result = connector.select("select * from history");
 	}
 	
-	public String getVideo() throws Exception{
-		return connector.select("select * from video");
+	public void getVideo() throws Exception{
+		result = connector.select("select * from video");
 	}
 	
-	public String getFavorites() throws Exception{
-		return connector.select("select * from favorites");
+	public void getFavorites() throws Exception{
+		result = connector.select("select * from favorites");
 	}
 	
-	public String getChannel() throws Exception{
-		return connector.select("select * from channel");
+	public void getChannel() throws Exception{
+		result = connector.select("select * from channel");
+	}
+	
+	public String getResult(){
+		return result.trim();
 	}
 	
 	/**
