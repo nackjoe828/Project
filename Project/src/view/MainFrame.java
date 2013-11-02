@@ -14,6 +14,8 @@ public class MainFrame extends JFrame{
 	public static final int HEIGHT = 500;
 	
 	private Controller controller;
+	private NavigationPanel nPanel;
+	private BodyPanel bPanel;
 	
 	public MainFrame(Controller controller) throws Exception{
 		super();
@@ -21,11 +23,13 @@ public class MainFrame extends JFrame{
 		this.setBackground(Color.LIGHT_GRAY);
 		this.setTitle("Video");
 		this.setLayout(new BorderLayout());
-		
 		this.controller = controller;
 		
-		this.add(BorderLayout.WEST, new NavigationPanel("naoki", this));
-		this.add(BorderLayout.CENTER, new TablePanel(controller));
+		nPanel = new NavigationPanel(this);
+		bPanel = new BodyPanel(controller);
+		
+		this.add(BorderLayout.WEST, nPanel);
+		this.add(BorderLayout.CENTER, bPanel);
 		
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setVisible(true);
@@ -33,5 +37,10 @@ public class MainFrame extends JFrame{
 	
 	public void sendMessage(SourceType type){
 		controller.show(type);
+	}
+	
+	public void switchPage(SourceType type){
+		nPanel.switchNavigation(type);
+		bPanel.switchBody(type);
 	}
 }

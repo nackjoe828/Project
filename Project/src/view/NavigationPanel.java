@@ -1,5 +1,8 @@
 package view;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import control.*;
 
 import javax.swing.BoxLayout;
@@ -11,28 +14,60 @@ import javax.swing.JPanel;
 import database.Model;
 
 public class NavigationPanel extends JPanel{
-	private JLabel name;
+	private JLabel label;
+	private JButton login;
 	private JButton logout;
 	private MainFrame mainFrame;
 	
-	public NavigationPanel(String username, MainFrame mainFrame){
+	public NavigationPanel(MainFrame mainFrame){
 		super();
 		this.mainFrame = mainFrame;
 		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-		this.addUsername(username);
+		label = new JLabel("Welcome!");
+		this.createLoginButton();
+		this.createLogoutButton();
 		
-		this.add(new AdminButtonPanel(mainFrame));
-		
-		this.addLogoutButton();
+		this.add(label);
+		this.add(login);
 	}
 	
-	private void addUsername(String username){
-		name = new JLabel(username);
-		this.add(name);
+	private void setUsername(String username){
+		label.setText(username);
 	}
 	
-	private void addLogoutButton(){
+	private void createLoginButton(){
+		login = new JButton("Log In");
+		login.addActionListener(new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				mainFrame.switchPage(SourceType.LOGIN);
+			}
+		});
+	}
+	
+	private void createLogoutButton(){
 		logout = new JButton("Log Out");
-		this.add(logout);
+		logout.addActionListener(new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				mainFrame.switchPage(SourceType.LOGOUT);
+			}
+		});
+	}
+	
+	public void switchNavigation(SourceType type){
+		switch (type){
+		case LOGIN:
+			this.removeAll();
+			this.add(logout);
+			break;
+		case LOGOUT:
+			this.removeAll();
+			this.add(login);
+			break;
+		default:
+			break;
+		}
+		this.revalidate();
 	}
 }
