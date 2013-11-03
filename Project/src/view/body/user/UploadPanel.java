@@ -56,7 +56,6 @@ public class UploadPanel extends JPanel implements SectionPanel{
 
 	@Override
 	public void sendQuery(String query) {
-		// TODO Auto-generated method stub
-		
+		dPanel.sendQuery(query);
 	}
 }

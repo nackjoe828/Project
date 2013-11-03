@@ -62,6 +62,31 @@ public class MainFrame extends JFrame implements ChangeListener{
 	
 	public void sendMessage(ButtonSourceType type){
 		switch (type){
+		case LOGIN:
+			if(bPanel.isUser()) {
+				//get user info
+				this.sendQuery(bPanel.getQuery());
+				//retrieve the result
+				username = controller.getResult();
+				nPanel.setUserName(username);
+				this.switchPage(PageType.USER);
+			}
+			else this.switchPage(PageType.ADMIN);
+			break;
+		case REGISTER:
+			if(bPanel.isNewUser()){
+				//get user info to be inserted and send it to controller
+				this.sendUpdate(bPanel.getUpdate());
+				//select the user info
+				this.sendQuery(bPanel.getQuery());
+				username = controller.getResult();
+				nPanel.setUserName(username);
+				this.switchPage(PageType.USER);
+			}
+			break;
+		case LOGOUT:
+			this.switchPage(PageType.START);
+			break;
 		case ADMIN_USER:
 		case ADMIN_VIDEO:
 		case ADMIN_HISTORY:
@@ -77,30 +102,6 @@ public class MainFrame extends JFrame implements ChangeListener{
 			break;
 		case USER_FAVORITES:
 			this.switchSection(SectionType.USER_FAVORITES);
-			break;
-		case UPLOAD_VIDEO:
-			bPanel.showResult("uploaded!!");
-			break;
-		case LOGIN:
-			if(bPanel.isUser()) {
-				this.sendQuery(bPanel.getQuery());
-				username = controller.getResult();
-				nPanel.setUserName(username);
-				this.switchPage(PageType.USER);
-			}
-			else this.switchPage(PageType.ADMIN);
-			break;
-		case REGISTER:
-			if(bPanel.isNewUser()){
-				this.sendUpdate(bPanel.getUpdate());
-				this.sendQuery(bPanel.getQuery());
-				username = controller.getResult();
-				nPanel.setUserName(username);
-				this.switchPage(PageType.USER);
-			}
-			break;
-		case LOGOUT:
-			this.switchPage(PageType.START);
 			break;
 		default:
 			break;

@@ -47,6 +47,10 @@ class Connector {
 		String ret = "";
 		ResultSetMetaData rsmd = rs.getMetaData();
 		int columnCount = rsmd.getColumnCount();
+		for(int i = 1; i <= columnCount; i++){
+			ret += rsmd.getColumnLabel(i) + "\t";
+		}
+		ret += "\n";
 		while(rs.next()){
 			for(int i = 1; i <= columnCount; i++){
 				ret += rs.getString(i) + "\t";

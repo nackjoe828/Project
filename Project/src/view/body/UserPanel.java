@@ -56,6 +56,14 @@ public class UserPanel extends JPanel implements WindowPanel{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				textarea.setText(input.getText());
+				//if video is selected
+				if(jcBox.getSelectedIndex() == 0) 
+					sendQuery("select * from video where vid = ?:"
+							+ input.getText());
+				//if channel is selected
+				else 
+					sendQuery("select * from channel where cid = ?:"
+							+ input.getText());
 			}
 		});
 		this.add(search);
@@ -116,8 +124,7 @@ public class UserPanel extends JPanel implements WindowPanel{
 
 	@Override
 	public void sendQuery(String query) {
-		// TODO Auto-generated method stub
-		
+		bPanel.sendQuery(query);
 	}
 	
 	
