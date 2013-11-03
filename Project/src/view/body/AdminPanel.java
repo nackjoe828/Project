@@ -1,20 +1,15 @@
 package view.body;
 
-import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 
-public class UserPanel extends JPanel implements DisplayPanel{
+public class AdminPanel extends JPanel implements DisplayPanel{
 	private JTextArea textarea;
-	private JComboBox jcBox;
-	private JButton search;
 	private BodyPanel bPanel;
 	
-	public UserPanel(BodyPanel bPanel){
+	public AdminPanel(BodyPanel bPanel){
 		super();
-		this.bPanel = bPanel;
-		this.textarea = new JTextArea("User Page");
+		this.textarea = new JTextArea("Admin Page");
 		this.add(textarea);
 	}
 	
@@ -28,6 +23,5 @@ public class UserPanel extends JPanel implements DisplayPanel{
 		textarea.setText(result);
 		this.revalidate();
 	}
-	
-	
+
 }

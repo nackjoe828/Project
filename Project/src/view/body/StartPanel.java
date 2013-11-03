@@ -8,7 +8,7 @@ import javax.swing.JTextField;
 import view.MainFrame;
 import view.QueryGenerator;
 
-public class LoginRegisterPanel extends JPanel implements QueryGenerator{
+public class StartPanel extends JPanel implements DisplayPanel, QueryGenerator{
 	private JLabel uidLabel;
 	private JLabel nameLabel;
 	private JLabel emailLabel;
@@ -17,7 +17,7 @@ public class LoginRegisterPanel extends JPanel implements QueryGenerator{
 	private JTextField email;
 	private BodyPanel bPanel;
 	
-	public LoginRegisterPanel(BodyPanel bPanel){
+	public StartPanel(BodyPanel bPanel){
 		super();
 		this.bPanel = bPanel;
 		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
@@ -84,4 +84,12 @@ public class LoginRegisterPanel extends JPanel implements QueryGenerator{
 		else query += "email = ?:" + getEmail();
 		return query;
 	}
+
+	@Override
+	public JPanel get() {
+		return this;
+	}
+
+	@Override
+	public void display(String result) {}
 }

@@ -14,12 +14,13 @@ import control.Controller;
 import database.Model;
 import static view.ButtonSourceType.*;
 
-public class AdminButtonPanel extends JPanel{
+public class AdminButtonPanel extends JPanel implements ButtonPanel{
 	private JButton user;
 	private JButton history;
 	private JButton video;
 	private JButton favorites;
 	private JButton channel;
+	private JButton logout;
 	private NavigationPanel nPanel;
 	
 	public AdminButtonPanel(NavigationPanel nPanel){
@@ -31,6 +32,7 @@ public class AdminButtonPanel extends JPanel{
 		this.addVideo();
 		this.addFavorites();
 		this.addChannel();
+		this.addLogout();
 	}
 	
 	private void addUserButton(){
@@ -38,7 +40,7 @@ public class AdminButtonPanel extends JPanel{
 		user.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				nPanel.sendMessage(ButtonSourceType.USER);
+				sendMessage(ButtonSourceType.USER);
 			}
 		});
 		this.add(user);
@@ -49,7 +51,7 @@ public class AdminButtonPanel extends JPanel{
 		history.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				nPanel.sendMessage(ButtonSourceType.HISTORY);
+				sendMessage(ButtonSourceType.HISTORY);
 			}
 		});
 		this.add(history);
@@ -60,7 +62,7 @@ public class AdminButtonPanel extends JPanel{
 		video.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				nPanel.sendMessage(ButtonSourceType.VIDEO);
+				sendMessage(ButtonSourceType.VIDEO);
 			}
 		});
 		this.add(video);
@@ -71,7 +73,7 @@ public class AdminButtonPanel extends JPanel{
 		favorites.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				nPanel.sendMessage(ButtonSourceType.FAVORITES);
+				sendMessage(ButtonSourceType.FAVORITES);
 			}
 		});
 		this.add(favorites);
@@ -82,9 +84,30 @@ public class AdminButtonPanel extends JPanel{
 		channel.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				nPanel.sendMessage(ButtonSourceType.CHANNEL);
+				sendMessage(ButtonSourceType.CHANNEL);
 			}
 		});
 		this.add(channel);
+	}
+	
+	private void addLogout(){
+		logout = new JButton("Logout");
+		logout.addActionListener(new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				sendMessage(ButtonSourceType.LOGOUT);
+			}
+		});
+		this.add(logout);
+	}
+
+	@Override
+	public void sendMessage(ButtonSourceType type) {
+		nPanel.sendMessage(type);
+	}
+
+	@Override
+	public JPanel get() {
+		return this;
 	}
 }

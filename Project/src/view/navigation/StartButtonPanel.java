@@ -5,44 +5,45 @@ import java.awt.event.ActionListener;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import view.ButtonSourceType;
-import view.MainFrame;
 
-public class UserButtonPanel extends JPanel implements ButtonPanel{
-	private JButton search;
-	private JButton logout;
+public class StartButtonPanel extends JPanel implements ButtonPanel{
+	private JButton register;
+	private JButton login;
 	private NavigationPanel nPanel;
 	
-	public UserButtonPanel(NavigationPanel nPanel){
+	public StartButtonPanel(NavigationPanel nPanel){
 		super();
 		this.nPanel = nPanel;
 		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-		this.addSearchButton();
-		this.addLogout();
+		this.createRegisterButton();
+		this.createLoginButton();
+		
 	}
 	
-	private void addSearchButton(){
-		search = new JButton("Search");
-		search.addActionListener(new ActionListener(){
+	private void createRegisterButton(){
+		register = new JButton("Register");
+		register.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				sendMessage(ButtonSourceType.SEARCH);
+				sendMessage(ButtonSourceType.REGISTER);
 			}
 		});
-		this.add(search);
+		this.add(register);
 	}
 	
-	private void addLogout(){
-		logout = new JButton("Logout");
-		logout.addActionListener(new ActionListener(){
+	private void createLoginButton(){
+		login = new JButton("Log In");
+		login.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				sendMessage(ButtonSourceType.LOGOUT);
+				sendMessage(ButtonSourceType.LOGIN);
 			}
 		});
-		this.add(logout);
+		this.add(login);
 	}
 
 	@Override

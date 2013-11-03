@@ -40,26 +40,34 @@ public class MainFrame extends JFrame implements ChangeListener{
         this.setVisible(true);
 	}
 	
-	public void sendMessage(ButtonSourceType type){
+	public void sendQuery(ButtonSourceType type){
 		controller.show(type);
 	}
 	
-	public void switchPage(ButtonSourceType type){
-		nPanel.switchNavigation(type);
-		bPanel.switchBody(type);
+	public void sendMessage(ButtonSourceType type){
+		switch (type){
+		case USER:
+		case VIDEO:
+		case HISTORY:
+		case FAVORITES:
+		case CHANNEL:
+			sendQuery(type);
+			break;
+		case LOGIN:
+		case REGISTER:
+			this.switchPage(PageType.ADMIN);
+			break;
+		case LOGOUT:
+			this.switchPage(PageType.START);
+			break;
+		default:
+			break;
+		}
 	}
 	
-	public boolean isUser(){
-		return bPanel.isUser();
-	}
-	
-	public void setUser(){
-		controller.select(bPanel.getQuery());
-		user = getResult();
-	}
-	
-	public String getUser(){
-		return user;
+	public void switchPage(PageType pageType){
+		nPanel.switchNavigation(pageType);
+		bPanel.switchBody(pageType);
 	}
 	
 	public String getResult(){
