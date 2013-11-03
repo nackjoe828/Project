@@ -11,7 +11,9 @@ import view.ButtonSourceType;
 import view.MainFrame;
 
 public class UserButtonPanel extends JPanel implements ButtonPanel{
-	private JButton search;
+	private JButton upload;
+	private JButton history;
+	private JButton favorites;
 	private JButton logout;
 	private NavigationPanel nPanel;
 	
@@ -19,19 +21,43 @@ public class UserButtonPanel extends JPanel implements ButtonPanel{
 		super();
 		this.nPanel = nPanel;
 		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-		this.addSearchButton();
+		this.addUploadButton();
+		this.addHistoryButton();
+		this.addFavoritesButton();
 		this.addLogout();
 	}
 	
-	private void addSearchButton(){
-		search = new JButton("Search");
-		search.addActionListener(new ActionListener(){
+	private void addUploadButton(){
+		upload = new JButton("Upload");
+		upload.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				sendMessage(ButtonSourceType.SEARCH);
+				sendMessage(ButtonSourceType.USER_UPLOAD);
 			}
 		});
-		this.add(search);
+		this.add(upload);
+	}
+	
+	private void addHistoryButton(){
+		history = new JButton("History");
+		history.addActionListener(new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				sendMessage(ButtonSourceType.USER_HISTORY);
+			}
+		});
+		this.add(history);
+	}
+	
+	private void addFavoritesButton(){
+		favorites = new JButton("Favorites");
+		favorites.addActionListener(new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				sendMessage(ButtonSourceType.USER_FAVORITES);
+			}
+		});
+		this.add(favorites);
 	}
 	
 	private void addLogout(){

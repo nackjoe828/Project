@@ -13,7 +13,7 @@ import control.Controller;
 import database.Model;
 
 public class MainFrame extends JFrame implements ChangeListener{
-	public static final int WIDTH = 500;
+	public static final int WIDTH = 800;
 	public static final int HEIGHT = 500;
 	
 	private Controller controller;
@@ -46,16 +46,28 @@ public class MainFrame extends JFrame implements ChangeListener{
 	
 	public void sendMessage(ButtonSourceType type){
 		switch (type){
-		case USER:
-		case VIDEO:
-		case HISTORY:
-		case FAVORITES:
-		case CHANNEL:
+		case ADMIN_USER:
+		case ADMIN_VIDEO:
+		case ADMIN_HISTORY:
+		case ADMIN_FAVORITES:
+		case ADMIN_CHANNEL:
 			sendQuery(type);
+			break;
+		case USER_UPLOAD:
+			this.switchSection(SectionType.USER_UPLOAD);
+			break;
+		case USER_HISTORY:
+			this.switchSection(SectionType.USER_HISTORY);
+			break;
+		case USER_FAVORITES:
+			this.switchSection(SectionType.USER_FAVORITES);
+			break;
+		case UPLOAD_VIDEO:
+			bPanel.showResult("uploaded!!");
 			break;
 		case LOGIN:
 		case REGISTER:
-			this.switchPage(PageType.ADMIN);
+			this.switchPage(PageType.USER);
 			break;
 		case LOGOUT:
 			this.switchPage(PageType.START);
@@ -65,9 +77,17 @@ public class MainFrame extends JFrame implements ChangeListener{
 		}
 	}
 	
+	/**
+	 * switch pages between start, user and admin
+	 * @param pageType type of the page to be desplayed
+	 */
 	public void switchPage(PageType pageType){
 		nPanel.switchNavigation(pageType);
 		bPanel.switchBody(pageType);
+	}
+	
+	public void switchSection(SectionType sectionType){
+		bPanel.switchSection(sectionType);
 	}
 	
 	public String getResult(){

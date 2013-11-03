@@ -5,8 +5,10 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import view.ButtonSourceType;
 import view.MainFrame;
 import view.QueryGenerator;
+import view.SectionType;
 
 public class StartPanel extends JPanel implements DisplayPanel, QueryGenerator{
 	private JLabel uidLabel;
@@ -92,4 +94,16 @@ public class StartPanel extends JPanel implements DisplayPanel, QueryGenerator{
 
 	@Override
 	public void display(String result) {}
+
+	@Override
+	public void switchSection(SectionType sectionType) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void sendMessage(ButtonSourceType type) {
+		// TODO Auto-generated method stub
+		
+	}
 }

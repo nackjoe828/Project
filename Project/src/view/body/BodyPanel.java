@@ -12,6 +12,7 @@ import javax.swing.event.ChangeListener;
 import view.MainFrame;
 import view.ButtonSourceType;
 import view.PageType;
+import view.SectionType;
 import control.Controller;
 import database.Model;
 
@@ -50,5 +51,13 @@ public class BodyPanel extends JPanel{
 		this.removeAll();
 		this.addDisplayPanel(pageType);
 		this.revalidate();
+	}
+	
+	public void sendMessage(ButtonSourceType type){
+		mainFrame.sendMessage(type);
+	}
+	
+	public void switchSection(SectionType sectionType){
+		currentPanel.switchSection(sectionType);
 	}
 }

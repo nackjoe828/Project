@@ -40,7 +40,7 @@ public class AdminButtonPanel extends JPanel implements ButtonPanel{
 		user.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				sendMessage(ButtonSourceType.USER);
+				sendMessage(ButtonSourceType.ADMIN_USER);
 			}
 		});
 		this.add(user);
@@ -51,7 +51,7 @@ public class AdminButtonPanel extends JPanel implements ButtonPanel{
 		history.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				sendMessage(ButtonSourceType.HISTORY);
+				sendMessage(ButtonSourceType.ADMIN_HISTORY);
 			}
 		});
 		this.add(history);
@@ -62,7 +62,7 @@ public class AdminButtonPanel extends JPanel implements ButtonPanel{
 		video.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				sendMessage(ButtonSourceType.VIDEO);
+				sendMessage(ButtonSourceType.ADMIN_VIDEO);
 			}
 		});
 		this.add(video);
@@ -73,7 +73,7 @@ public class AdminButtonPanel extends JPanel implements ButtonPanel{
 		favorites.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				sendMessage(ButtonSourceType.FAVORITES);
+				sendMessage(ButtonSourceType.ADMIN_FAVORITES);
 			}
 		});
 		this.add(favorites);
@@ -84,7 +84,7 @@ public class AdminButtonPanel extends JPanel implements ButtonPanel{
 		channel.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				sendMessage(ButtonSourceType.CHANNEL);
+				sendMessage(ButtonSourceType.ADMIN_CHANNEL);
 			}
 		});
 		this.add(channel);

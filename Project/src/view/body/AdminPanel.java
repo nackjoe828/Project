@@ -3,6 +3,9 @@ package view.body;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 
+import view.ButtonSourceType;
+import view.SectionType;
+
 public class AdminPanel extends JPanel implements DisplayPanel{
 	private JTextArea textarea;
 	private BodyPanel bPanel;
@@ -23,6 +26,18 @@ public class AdminPanel extends JPanel implements DisplayPanel{
 	public void display(String result) {
 		textarea.setText(result);
 		this.revalidate();
+	}
+
+	@Override
+	public void switchSection(SectionType sectionType) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void sendMessage(ButtonSourceType type) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

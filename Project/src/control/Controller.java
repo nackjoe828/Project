@@ -21,19 +21,19 @@ public class Controller {
 	public void show(ButtonSourceType type){
 		try{
 			switch (type){
-			case USER:
+			case ADMIN_USER:
 				model.getUser();
 				break;
-			case VIDEO:
+			case ADMIN_VIDEO:
 				model.getVideo();
 				break;
-			case HISTORY:
+			case ADMIN_HISTORY:
 				model.getHistory();
 				break;
-			case FAVORITES:
+			case ADMIN_FAVORITES:
 				model.getFavorites();
 				break;
-			case CHANNEL:
+			case ADMIN_CHANNEL:
 				model.getChannel();
 				break;
 			default:
