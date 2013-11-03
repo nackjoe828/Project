@@ -9,6 +9,7 @@ public class AdminPanel extends JPanel implements DisplayPanel{
 	
 	public AdminPanel(BodyPanel bPanel){
 		super();
+		this.bPanel = bPanel;
 		this.textarea = new JTextArea("Admin Page");
 		this.add(textarea);
 	}

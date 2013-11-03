@@ -33,6 +33,7 @@ public class BodyPanel extends JPanel{
 	
 	private void initializePage(){
 		displayContainer.put(PageType.START, new StartPanel(this));
+		displayContainer.put(PageType.ADMIN, new AdminPanel(this));
 		displayContainer.put(PageType.USER, new UserPanel(this));
 	}
 	
