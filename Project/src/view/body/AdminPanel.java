@@ -6,7 +6,7 @@ import javax.swing.JTextArea;
 import view.ButtonSourceType;
 import view.SectionType;
 
-public class AdminPanel extends JPanel implements DisplayPanel{
+public class AdminPanel extends JPanel implements WindowPanel{
 	private JTextArea textarea;
 	private BodyPanel bPanel;
 	
@@ -35,7 +35,13 @@ public class AdminPanel extends JPanel implements DisplayPanel{
 	}
 
 	@Override
-	public void sendMessage(ButtonSourceType type) {
+	public void sendAction(ButtonSourceType type) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void sendQuery(String query) {
 		// TODO Auto-generated method stub
 		
 	}

@@ -10,7 +10,7 @@ import view.MainFrame;
 import view.QueryGenerator;
 import view.SectionType;
 
-public class StartPanel extends JPanel implements DisplayPanel, QueryGenerator{
+public class StartPanel extends JPanel implements WindowPanel, QueryGenerator{
 	private JLabel uidLabel;
 	private JLabel nameLabel;
 	private JLabel emailLabel;
@@ -66,23 +66,36 @@ public class StartPanel extends JPanel implements DisplayPanel, QueryGenerator{
 		return !getUid().equals("admin");
 	}
 	
-	public String getUid(){
+	public void setUserName(){
+		bPanel.setUserName(generateQuery());
+	}
+	
+	public boolean isNewUser(){
+		return !getUid().isEmpty() && !getUName().isEmpty() && !getEmail().isEmpty();
+	}
+	
+	private String getUid(){
 		return uid.getText();
 	}
 	
-	public String getName(){
+	private String getUName(){
 		return name.getText();
 	}
 	
-	public String getEmail(){
+	private String getEmail(){
 		return email.getText();
+	}
+	
+	public String registerNewUser(){
+		return "insert into user values(?,?,?):"
+				+ getUid() + ":" + getUName() + ":" + getEmail();
 	}
 
 	@Override
 	public String generateQuery() {
 		String query = "select * from user where ";
 		if(!getUid().isEmpty()) query += "uid = ?:" + getUid();
-		else if(!getName().isEmpty()) query += "name = ?:" + getName();
+		else if(!getUName().isEmpty()) query += "name = ?:" + getUName();
 		else query += "email = ?:" + getEmail();
 		return query;
 	}
@@ -102,8 +115,13 @@ public class StartPanel extends JPanel implements DisplayPanel, QueryGenerator{
 	}
 
 	@Override
-	public void sendMessage(ButtonSourceType type) {
+	public void sendAction(ButtonSourceType type) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public void sendQuery(String query) {
+		bPanel.sendQuery(query);
 	}
 }

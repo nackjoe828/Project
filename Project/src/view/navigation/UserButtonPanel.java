@@ -32,7 +32,7 @@ public class UserButtonPanel extends JPanel implements ButtonPanel{
 		upload.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				sendMessage(ButtonSourceType.USER_UPLOAD);
+				sendAction(ButtonSourceType.USER_UPLOAD);
 			}
 		});
 		this.add(upload);
@@ -43,7 +43,7 @@ public class UserButtonPanel extends JPanel implements ButtonPanel{
 		history.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				sendMessage(ButtonSourceType.USER_HISTORY);
+				sendAction(ButtonSourceType.USER_HISTORY);
 			}
 		});
 		this.add(history);
@@ -54,7 +54,7 @@ public class UserButtonPanel extends JPanel implements ButtonPanel{
 		favorites.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				sendMessage(ButtonSourceType.USER_FAVORITES);
+				sendAction(ButtonSourceType.USER_FAVORITES);
 			}
 		});
 		this.add(favorites);
@@ -65,14 +65,14 @@ public class UserButtonPanel extends JPanel implements ButtonPanel{
 		logout.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				sendMessage(ButtonSourceType.LOGOUT);
+				sendAction(ButtonSourceType.LOGOUT);
 			}
 		});
 		this.add(logout);
 	}
 
 	@Override
-	public void sendMessage(ButtonSourceType type) {
+	public void sendAction(ButtonSourceType type) {
 		nPanel.sendMessage(type);
 	}
 

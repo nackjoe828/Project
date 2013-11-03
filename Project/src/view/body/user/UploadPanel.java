@@ -9,16 +9,16 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import view.ButtonSourceType;
-import view.body.DisplayPanel;
+import view.body.WindowPanel;
 import view.body.SectionPanel;
 
 public class UploadPanel extends JPanel implements SectionPanel{
 	private JLabel vid;
 	private JTextField vidfield;
-	private DisplayPanel dPanel;
+	private WindowPanel dPanel;
 	private JButton upload;
 	
-	public UploadPanel(DisplayPanel dPanel){
+	public UploadPanel(WindowPanel dPanel){
 		super();
 		this.dPanel = dPanel;
 		vid = new JLabel("vid : ");
@@ -33,7 +33,7 @@ public class UploadPanel extends JPanel implements SectionPanel{
 		upload.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				sendMessage(ButtonSourceType.UPLOAD_VIDEO);
+				sendAction(ButtonSourceType.UPLOAD_VIDEO);
 			}
 		});
 		this.add(upload);
@@ -45,12 +45,18 @@ public class UploadPanel extends JPanel implements SectionPanel{
 	}
 
 	@Override
-	public void sendMessage(ButtonSourceType type) {
-		dPanel.sendMessage(type);
+	public void sendAction(ButtonSourceType type) {
+		dPanel.sendAction(type);
 	}
 
 	@Override
 	public void display(String result) {
+		
+	}
+
+	@Override
+	public void sendQuery(String query) {
+		// TODO Auto-generated method stub
 		
 	}
 }

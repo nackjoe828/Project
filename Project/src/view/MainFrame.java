@@ -19,7 +19,7 @@ public class MainFrame extends JFrame implements ChangeListener{
 	private Controller controller;
 	private NavigationPanel nPanel;
 	private BodyPanel bPanel;
-	private String user;
+	private String username;
 	
 	public MainFrame(Controller controller) throws Exception{
 		super();
@@ -40,8 +40,24 @@ public class MainFrame extends JFrame implements ChangeListener{
         this.setVisible(true);
 	}
 	
-	public void sendQuery(ButtonSourceType type){
+	public void sendUpdate(String update){
+		controller.update(update);
+	}
+	
+	public void sendQuery(String query){
+		controller.select(query);
+	}
+	
+	public void sendButtonType(ButtonSourceType type){
 		controller.show(type);
+	}
+	
+	public void setUserName(String query){
+		username = controller.getUserName(query);
+	}
+	
+	public String getUserName(){
+		return username;
 	}
 	
 	public void sendMessage(ButtonSourceType type){
@@ -51,7 +67,7 @@ public class MainFrame extends JFrame implements ChangeListener{
 		case ADMIN_HISTORY:
 		case ADMIN_FAVORITES:
 		case ADMIN_CHANNEL:
-			sendQuery(type);
+			sendButtonType(type);
 			break;
 		case USER_UPLOAD:
 			this.switchSection(SectionType.USER_UPLOAD);
@@ -66,8 +82,22 @@ public class MainFrame extends JFrame implements ChangeListener{
 			bPanel.showResult("uploaded!!");
 			break;
 		case LOGIN:
+			if(bPanel.isUser()) {
+				this.sendQuery(bPanel.getQuery());
+				username = controller.getResult();
+				nPanel.setUserName(username);
+				this.switchPage(PageType.USER);
+			}
+			else this.switchPage(PageType.ADMIN);
+			break;
 		case REGISTER:
-			this.switchPage(PageType.USER);
+			if(bPanel.isNewUser()){
+				this.sendUpdate(bPanel.getUpdate());
+				this.sendQuery(bPanel.getQuery());
+				username = controller.getResult();
+				nPanel.setUserName(username);
+				this.switchPage(PageType.USER);
+			}
 			break;
 		case LOGOUT:
 			this.switchPage(PageType.START);

@@ -40,7 +40,7 @@ public class AdminButtonPanel extends JPanel implements ButtonPanel{
 		user.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				sendMessage(ButtonSourceType.ADMIN_USER);
+				sendAction(ButtonSourceType.ADMIN_USER);
 			}
 		});
 		this.add(user);
@@ -51,7 +51,7 @@ public class AdminButtonPanel extends JPanel implements ButtonPanel{
 		history.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				sendMessage(ButtonSourceType.ADMIN_HISTORY);
+				sendAction(ButtonSourceType.ADMIN_HISTORY);
 			}
 		});
 		this.add(history);
@@ -62,7 +62,7 @@ public class AdminButtonPanel extends JPanel implements ButtonPanel{
 		video.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				sendMessage(ButtonSourceType.ADMIN_VIDEO);
+				sendAction(ButtonSourceType.ADMIN_VIDEO);
 			}
 		});
 		this.add(video);
@@ -73,7 +73,7 @@ public class AdminButtonPanel extends JPanel implements ButtonPanel{
 		favorites.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				sendMessage(ButtonSourceType.ADMIN_FAVORITES);
+				sendAction(ButtonSourceType.ADMIN_FAVORITES);
 			}
 		});
 		this.add(favorites);
@@ -84,7 +84,7 @@ public class AdminButtonPanel extends JPanel implements ButtonPanel{
 		channel.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				sendMessage(ButtonSourceType.ADMIN_CHANNEL);
+				sendAction(ButtonSourceType.ADMIN_CHANNEL);
 			}
 		});
 		this.add(channel);
@@ -95,14 +95,14 @@ public class AdminButtonPanel extends JPanel implements ButtonPanel{
 		logout.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				sendMessage(ButtonSourceType.LOGOUT);
+				sendAction(ButtonSourceType.LOGOUT);
 			}
 		});
 		this.add(logout);
 	}
 
 	@Override
-	public void sendMessage(ButtonSourceType type) {
+	public void sendAction(ButtonSourceType type) {
 		nPanel.sendMessage(type);
 	}
 

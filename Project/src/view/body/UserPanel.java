@@ -14,7 +14,7 @@ import view.ButtonSourceType;
 import view.SectionType;
 import view.body.user.UploadPanel;
 
-public class UserPanel extends JPanel implements DisplayPanel{
+public class UserPanel extends JPanel implements WindowPanel{
 	private JTextArea textarea;
 	private JComboBox jcBox;
 	private JTextField input;
@@ -110,8 +110,14 @@ public class UserPanel extends JPanel implements DisplayPanel{
 	}
 
 	@Override
-	public void sendMessage(ButtonSourceType type) {
+	public void sendAction(ButtonSourceType type) {
 		bPanel.sendMessage(type);
+	}
+
+	@Override
+	public void sendQuery(String query) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 	

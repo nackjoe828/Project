@@ -29,7 +29,7 @@ public class StartButtonPanel extends JPanel implements ButtonPanel{
 		register.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				sendMessage(ButtonSourceType.REGISTER);
+				sendAction(ButtonSourceType.REGISTER);
 			}
 		});
 		this.add(register);
@@ -40,14 +40,14 @@ public class StartButtonPanel extends JPanel implements ButtonPanel{
 		login.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				sendMessage(ButtonSourceType.LOGIN);
+				sendAction(ButtonSourceType.LOGIN);
 			}
 		});
 		this.add(login);
 	}
 
 	@Override
-	public void sendMessage(ButtonSourceType type) {
+	public void sendAction(ButtonSourceType type) {
 		nPanel.sendMessage(type);
 	}
 

@@ -21,13 +21,13 @@ public class BodyPanel extends JPanel{
 	public static final int HEIGHT = 300;
 	
 	private MainFrame mainFrame;
-	private HashMap<PageType, DisplayPanel> displayContainer;
-	private DisplayPanel currentPanel;
+	private HashMap<PageType, WindowPanel> displayContainer;
+	private WindowPanel currentPanel;
 	
 	public BodyPanel(MainFrame mainFrame){
 		super();
 		this.mainFrame = mainFrame;
-		displayContainer = new HashMap<PageType, DisplayPanel>();
+		displayContainer = new HashMap<PageType, WindowPanel>();
 		this.initializePage();
 		this.addDisplayPanel(PageType.START);
 	}
@@ -53,8 +53,36 @@ public class BodyPanel extends JPanel{
 		this.revalidate();
 	}
 	
+	public boolean isNewUser(){
+		StartPanel panel = (StartPanel)currentPanel;
+		return panel.isNewUser();
+	}
+	
+	public boolean isUser(){
+		StartPanel panel = (StartPanel)currentPanel;
+		return panel.isUser();
+	}
+	
 	public void sendMessage(ButtonSourceType type){
 		mainFrame.sendMessage(type);
+	}
+	
+	public String getUpdate(){
+		StartPanel panel = (StartPanel)currentPanel;
+		return panel.registerNewUser();
+	}
+	
+	public String getQuery(){
+		StartPanel panel = (StartPanel)currentPanel;
+		return panel.generateQuery();
+	}
+	
+	public void sendQuery(String query){
+		mainFrame.sendQuery(query);
+	}
+	
+	public void setUserName(String query){
+		mainFrame.setUserName(query);
 	}
 	
 	public void switchSection(SectionType sectionType){

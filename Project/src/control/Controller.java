@@ -43,10 +43,24 @@ public class Controller {
 		notifyListener();
 	}
 	
+	public void update(String update){
+		try{
+			int i = model.update(update);
+		}catch(Exception e){}
+	}
+	
 	public void select(String query){
 		try{
 			model.select(query);
 		}catch(Exception e){}
+		result = getResult();
+	}
+	
+	public String getUserName(String query){
+		try{
+			model.select(query);
+		}catch(Exception e){}
+		return getResult();
 	}
 	
 	public String getResult(){

@@ -50,9 +50,27 @@ public class NavigationPanel extends JPanel{
 		this.add(currentPanel.get());
 	}
 	
+	public void setUserName(String username){
+		label.setText(username);
+		this.revalidate();
+	}
+	
 	public void switchNavigation(PageType type){
 		this.removeAll();
 		this.add(label);
+		switch (type){
+		case START:
+			label.setText("Welcome");
+			break;
+		case ADMIN:
+			label.setText("Admin");
+			break;
+		case USER:
+			label.setText(mainFrame.getUserName());
+			break;
+		default:
+			break;
+		}
 		this.addButtonPanel(type);
 		this.revalidate();
 	}
