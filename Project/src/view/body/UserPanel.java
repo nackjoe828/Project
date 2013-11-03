@@ -64,6 +64,7 @@ public class UserPanel extends JPanel implements WindowPanel{
 				else 
 					sendQuery("select * from channel where cid = ?:"
 							+ input.getText());
+				bPanel.sendMessage(ButtonSourceType.SEARCH);
 			}
 		});
 		this.add(search);
@@ -126,6 +127,4 @@ public class UserPanel extends JPanel implements WindowPanel{
 	public void sendQuery(String query) {
 		bPanel.sendQuery(query);
 	}
-	
-	
 }

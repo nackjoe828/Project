@@ -28,7 +28,6 @@ public class MainFrame extends JFrame implements ChangeListener{
 		this.setTitle("Video");
 		this.setLayout(new BorderLayout());
 		this.controller = controller;
-		this.controller.addListener(this);
 		
 		nPanel = new NavigationPanel(this);
 		bPanel = new BodyPanel(this);
@@ -93,6 +92,7 @@ public class MainFrame extends JFrame implements ChangeListener{
 		case ADMIN_FAVORITES:
 		case ADMIN_CHANNEL:
 			sendButtonType(type);
+			showTable(getResult());
 			break;
 		case USER_UPLOAD:
 			this.switchSection(SectionType.USER_UPLOAD);
@@ -115,6 +115,10 @@ public class MainFrame extends JFrame implements ChangeListener{
 	public void switchPage(PageType pageType){
 		nPanel.switchNavigation(pageType);
 		bPanel.switchBody(pageType);
+	}
+	
+	public void showTable(String result){
+		bPanel.showResult(result);
 	}
 	
 	public void switchSection(SectionType sectionType){

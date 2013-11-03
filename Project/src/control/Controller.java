@@ -6,16 +6,16 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import view.ButtonSourceType;
+import view.MainFrame;
 import database.Model;
 
 public class Controller {
 	private Model model;
-	private ArrayList<ChangeListener> listener;
+	private MainFrame mFrame;
 	private String result;
 	
 	public Controller(Model model){
 		this.model = model;
-		listener = new ArrayList<ChangeListener>();
 	}
 	
 	public void show(ButtonSourceType type){
@@ -40,7 +40,7 @@ public class Controller {
 				break;
 			}
 		}catch(Exception e){}
-		notifyListener();
+		result = model.getResult();
 	}
 	
 	public void update(String update){
@@ -53,7 +53,7 @@ public class Controller {
 		try{
 			model.select(query);
 		}catch(Exception e){}
-		result = getResult();
+		result = model.getResult();
 	}
 	
 	public String getUserName(String query){
@@ -64,17 +64,6 @@ public class Controller {
 	}
 	
 	public String getResult(){
-		return model.getResult();
-	}
-	
-	public void addListener(ChangeListener listener){
-		this.listener.add(listener);
-	}
-	
-	private void notifyListener(){
-		ChangeEvent event = new ChangeEvent(this);
-		for(ChangeListener c : listener){
-			c.stateChanged(event);
-		}
+		return result;
 	}
 }

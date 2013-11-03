@@ -3,18 +3,19 @@ package view.body;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 
+import util.TablePanelGenerator;
 import view.ButtonSourceType;
 import view.SectionType;
 
 public class AdminPanel extends JPanel implements WindowPanel{
-	private JTextArea textarea;
+	private JPanel panel;
 	private BodyPanel bPanel;
 	
 	public AdminPanel(BodyPanel bPanel){
 		super();
 		this.bPanel = bPanel;
-		this.textarea = new JTextArea("Admin Page");
-		this.add(textarea);
+		this.panel = new JPanel();
+		this.add(panel);
 	}
 	
 	@Override
@@ -24,7 +25,10 @@ public class AdminPanel extends JPanel implements WindowPanel{
 
 	@Override
 	public void display(String result) {
-		textarea.setText(result);
+		this.removeAll();
+		TablePanelGenerator tpg = new TablePanelGenerator(result);
+		panel = tpg.getContainer();
+		this.add(panel);
 		this.revalidate();
 	}
 
