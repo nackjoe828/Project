@@ -10,5 +10,8 @@ public enum ButtonSourceType {
 	//buttons from upload section
 	UPLOAD_VIDEO,
 	
+	//buttons from table
+	WATCH, SELECT,
+	
 	REGISTER, LOGIN, LOGOUT;
 }

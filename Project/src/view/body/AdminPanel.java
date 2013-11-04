@@ -1,18 +1,24 @@
 package view.body;
 
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+
+import javax.swing.BoxLayout;
 import javax.swing.JPanel;
-import javax.swing.JTextArea;
+import javax.swing.JScrollPane;
 
 import util.TablePanelGenerator;
 import view.ButtonSourceType;
-import view.SectionType;
 
-public class AdminPanel extends JPanel implements WindowPanel{
+public class AdminPanel extends JPanel implements WindowPanel, TableListener{
 	private JPanel panel;
 	private BodyPanel bPanel;
+	private JScrollPane scroll;
 	
 	public AdminPanel(BodyPanel bPanel){
 		super();
+		this.setLayout(new FlowLayout());
 		this.bPanel = bPanel;
 		this.panel = new JPanel();
 		this.add(panel);
@@ -26,14 +32,17 @@ public class AdminPanel extends JPanel implements WindowPanel{
 	@Override
 	public void display(String result) {
 		this.removeAll();
-		TablePanelGenerator tpg = new TablePanelGenerator(result);
-		panel = tpg.getContainer();
-		this.add(panel);
+		TablePanelGenerator tpg = new TablePanelGenerator(result, this);
+		panel = tpg.getPanel();
+		scroll = new JScrollPane(panel,
+				JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+		//panel.setPreferredSize(new Dimension(this.getWidth(), this.getHeight()));
+		this.add(BorderLayout.CENTER, scroll);
 		this.revalidate();
 	}
 
 	@Override
-	public void switchSection(SectionType sectionType) {
+	public void switchSection(ButtonSourceType type) {
 		// TODO Auto-generated method stub
 		
 	}
@@ -45,9 +54,8 @@ public class AdminPanel extends JPanel implements WindowPanel{
 	}
 
 	@Override
-	public void sendQuery(String query) {
+	public void selectRow(String row) {
 		// TODO Auto-generated method stub
 		
 	}
-
 }

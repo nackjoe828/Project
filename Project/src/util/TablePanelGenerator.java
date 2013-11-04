@@ -1,6 +1,8 @@
 package util;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -11,47 +13,50 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
+import view.body.TableListener;
+
 public class TablePanelGenerator {
-	private static JPanel container;
+	private JPanel container;
 	private JPanel tablePanel;
 	private JPanel buttonContainer;
 	private JScrollPane scrollPane;
 	private int column;
 	private int row;
 	private String[][] table;
-	private ArrayList<JButton> buttons;
+	private ArrayList<JLabel> labels;
 	private int x;
 	private int source;
+	private TableListener listener;
+	private int width;
+	private int height;
 	
-	public TablePanelGenerator(String result){
-		buttons = new ArrayList<JButton>();
+	public TablePanelGenerator(String result, TableListener listener){
+		labels = new ArrayList<JLabel>();
+		this.listener = listener;
 		String[] rows = result.split("\n");
 		row = rows.length - 1;
 		String[] labels = rows[0].split("\t");
 		column = labels.length;
 		x = 0;
-		this.generateButtons(labels);
+		this.generateLabels(labels);
 		this.generateTable(rows);
 		this.generateButtonPanel();
 		this.generateTablePanel();
 		container.add(BorderLayout.NORTH, buttonContainer);
-		container.add(BorderLayout.CENTER, scrollPane);
+		container.add(BorderLayout.CENTER, tablePanel);
+		container.setMaximumSize(new Dimension(400, 500));
 	}
 	
-	private void generateButtons(String[] labels){
+	public void setMaxSize(int width, int height){
+		this.width = width;
+		this.height = height;
+	}
+	
+	private void generateLabels(String[] labels){
 		for(int i = 0; i < labels.length; i++){
 			final int y = i;
-			JButton button = new JButton(labels[i]);
-			button.addActionListener(new ActionListener(){
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					x++;
-					sort(y);
-					update();
-				}
-				
-			});
-			buttons.add(button);
+			JLabel label = new JLabel(labels[i]);
+			this.labels.add(label);
 		}
 	}
 	
@@ -65,10 +70,17 @@ public class TablePanelGenerator {
 	private void generateButtonPanel(){
 		container = new JPanel();
 		container.setLayout(new BorderLayout());
+		//container.setPreferredSize(new Dimension(400, 500));
 		buttonContainer = new JPanel();
 		buttonContainer.setLayout(new GridLayout(1, column + 1));
-		for(int i = 0; i < column; i++)
-			buttonContainer.add(buttons.get(i));
+		for(int i = 0; i < column; i++){
+			JPanel p = new JPanel();
+			p.setLayout(new FlowLayout(FlowLayout.RIGHT));
+			p.add(labels.get(i));
+			buttonContainer.add(p);
+		}
+		JPanel p = new JPanel();
+		p.setLayout(new FlowLayout(FlowLayout.RIGHT));
 		buttonContainer.add(new JLabel());
 	}
 	
@@ -76,10 +88,22 @@ public class TablePanelGenerator {
 		tablePanel = new JPanel();
 		tablePanel.setLayout(new GridLayout(row, column + 1));
 		for(int i = 0; i < row; i++){
-			for(int j = 0; j < column; j++)
-				tablePanel.add(new JLabel(table[i][j]));
-			tablePanel.add(new JButton("Hello"));
-	}
+			for(int j = 0; j < column; j++){
+				JPanel p = new JPanel();
+				p.setLayout(new FlowLayout(FlowLayout.RIGHT));
+				p.add(new JLabel(table[i][j]));
+				tablePanel.add(p);
+			}
+			final int x = i;
+			JButton selectButton = new JButton("Select");
+			selectButton.addActionListener(new ActionListener(){
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					listener.selectRow(table[x][0]);
+				}
+			});
+			tablePanel.add(selectButton);
+		}
 		scrollPane = new JScrollPane(tablePanel,
 				JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
 				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
@@ -93,7 +117,7 @@ public class TablePanelGenerator {
 		container.revalidate();
 	}
 	
-	public JPanel getContainer(){
+	public JPanel getPanel(){;
 		return container;
 	}
 	/*
@@ -106,6 +130,7 @@ public class TablePanelGenerator {
 		java.util.Arrays.sort(table, new java.util.Comparator<String[]>() {
 		    public int compare(String[] a, String[] b) {
 		        return a[i].compareTo(b[i]);
+		        
 		    }
 		});
 		//if desc

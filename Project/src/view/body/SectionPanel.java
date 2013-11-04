@@ -9,7 +9,5 @@ public interface SectionPanel {
 	
 	public void sendAction(ButtonSourceType type);
 	
-	public void sendQuery(String query);
-	
 	public void display(String result);
 }

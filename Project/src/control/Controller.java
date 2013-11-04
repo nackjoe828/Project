@@ -1,10 +1,5 @@
 package control;
 
-import java.util.ArrayList;
-
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-
 import view.ButtonSourceType;
 import view.MainFrame;
 import database.Model;

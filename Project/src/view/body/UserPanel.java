@@ -1,8 +1,10 @@
 package view.body;
 
+import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -10,16 +12,18 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
+import util.TablePanelGenerator;
 import view.ButtonSourceType;
-import view.SectionType;
+import view.QueryGenerator;
 import view.body.user.UploadPanel;
 
-public class UserPanel extends JPanel implements WindowPanel{
-	private JTextArea textarea;
+public class UserPanel extends JPanel implements WindowPanel, QueryGenerator, TableListener{
+	//private JTextArea textarea;
 	private JComboBox jcBox;
 	private JTextField input;
 	private JButton search;
 	private JPanel searchPanel;
+	private JPanel resultPanel;
 	private JPanel hSection;
 	private JPanel fSection;
 	private SectionPanel uploadSection;
@@ -27,17 +31,21 @@ public class UserPanel extends JPanel implements WindowPanel{
 	
 	public UserPanel(BodyPanel bPanel){
 		super();
+		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		this.bPanel = bPanel;
-		this.textarea = new JTextArea("User Panel");
-		this.add(textarea);
+		//this.textarea = new JTextArea("User Panel");
+		//this.add(textarea);
 		this.addSearchField();
 	}
 	
 	private void addSearchField(){
 		searchPanel = new JPanel();
+		searchPanel.setLayout(new FlowLayout());
+		
 		String[] menu = {"Video", "Channel"};
 		this.jcBox = new JComboBox(menu);
 		this.input = new JTextField(10);
+		this.resultPanel = new JPanel();
 		this.hSection = new JPanel();
 		this.hSection.add(new JLabel("History"));
 		this.fSection = new JPanel();
@@ -48,6 +56,7 @@ public class UserPanel extends JPanel implements WindowPanel{
 		searchPanel.add(input);
 		searchPanel.add(search);
 		this.add(searchPanel);
+		this.add(resultPanel);
 	}
 	
 	private void addSearchButton(){
@@ -55,7 +64,7 @@ public class UserPanel extends JPanel implements WindowPanel{
 		search.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				textarea.setText(input.getText());
+				//textarea.setText(input.getText());
 				//if video is selected
 				if(jcBox.getSelectedIndex() == 0) 
 					sendQuery("select * from video where vid = ?:"
@@ -64,29 +73,39 @@ public class UserPanel extends JPanel implements WindowPanel{
 				else 
 					sendQuery("select * from channel where cid = ?:"
 							+ input.getText());
-				bPanel.sendMessage(ButtonSourceType.SEARCH);
+				sendAction(ButtonSourceType.SEARCH);
 			}
 		});
 		this.add(search);
 	}
 	
+	public String getUserId(){
+		return bPanel.getUserId();
+	}
+	
 	public void displayHistorySection(){
 		this.removeAll();
 		this.add(searchPanel);
-		this.add(hSection);
+		this.repaint();
 	}
 	
 	public void displayFavoritesSection(){
 		this.removeAll();
 		this.add(searchPanel);
 		this.add(fSection);
+		this.repaint();
 	}
 
 	public void displayUploadSection(){
 		this.removeAll();
-		this.add(textarea);
+		//this.add(textarea);
 		this.add(searchPanel);
 		this.add(uploadSection.get());
+		this.repaint();
+	}
+	
+	public void updateUpload(){
+		((UploadPanel)uploadSection).confirmMessage();
 	}
 	
 	@Override
@@ -96,13 +115,17 @@ public class UserPanel extends JPanel implements WindowPanel{
 
 	@Override
 	public void display(String result) {
-		textarea.setText(result);
+		this.removeAll();
+		TablePanelGenerator tpg = new TablePanelGenerator(result, this);
+		this.add(searchPanel);
+		this.add(uploadSection.get());
+		this.add(tpg.getPanel());
 		this.revalidate();
 	}
 
 	@Override
-	public void switchSection(SectionType sectionType) {
-		switch (sectionType){
+	public void switchSection(ButtonSourceType type) {
+		switch (type){
 		case USER_HISTORY:
 			displayHistorySection();
 			break;
@@ -112,9 +135,13 @@ public class UserPanel extends JPanel implements WindowPanel{
 		case USER_UPLOAD:
 			displayUploadSection();
 			break;
+		case UPLOAD_VIDEO:
+			updateUpload();
+			break;
 		default:
 			break;
 		}
+		input.setText("");
 		this.revalidate();
 	}
 
@@ -126,5 +153,17 @@ public class UserPanel extends JPanel implements WindowPanel{
 	@Override
 	public void sendQuery(String query) {
 		bPanel.sendQuery(query);
+	}
+
+	@Override
+	public void sendUpdate(String update) {
+		bPanel.sendUpdate(update);
+	}
+
+	@Override
+	public void selectRow(String row) {
+		sendUpdate("insert into history (vid, uid,date) values ("
+				+ row + "," + bPanel.getUserId() + "," + "now())");
+		sendAction(ButtonSourceType.SELECT);
 	}
 }

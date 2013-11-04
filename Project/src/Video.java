@@ -12,6 +12,7 @@ public class Video {
 	public Video() {
 		try{
 			Model model = new Model();
+			//sqlTester(model);
 			Controller controller = new Controller(model);
 			MainFrame frame = new MainFrame(controller);
 			//testTable(model);
@@ -30,8 +31,13 @@ public class Video {
 		
 		JFrame frame = new JFrame();
 		frame.setSize(600, 300);
-		frame.add(TablePanelGenerator.getPanel(str));
+		TablePanelGenerator tpg = new TablePanelGenerator(str, null);
+		frame.add(tpg.getPanel());
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
+	}
+	
+	public void sqlTester(Model model) throws Exception{
+		model.update("insert into history (uid, vid, date) values (53, )");
 	}
 }

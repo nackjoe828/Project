@@ -2,24 +2,25 @@ package view;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.util.ArrayList;
 
 import javax.swing.JFrame;
+import javax.swing.JScrollPane;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import view.body.BodyPanel;
 import view.navigation.NavigationPanel;
 import control.Controller;
-import database.Model;
 
-public class MainFrame extends JFrame implements ChangeListener{
+public class MainFrame extends JFrame implements QueryGenerator{
 	public static final int WIDTH = 800;
 	public static final int HEIGHT = 500;
 	
 	private Controller controller;
 	private NavigationPanel nPanel;
 	private BodyPanel bPanel;
-	private String username;
+	private String[] username;
 	
 	public MainFrame(Controller controller) throws Exception{
 		super();
@@ -32,17 +33,22 @@ public class MainFrame extends JFrame implements ChangeListener{
 		nPanel = new NavigationPanel(this);
 		bPanel = new BodyPanel(this);
 		
+		JScrollPane scroll = new JScrollPane(bPanel,
+				JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+		
 		this.add(BorderLayout.WEST, nPanel);
-		this.add(BorderLayout.CENTER, bPanel);
+		this.add(BorderLayout.CENTER, scroll);
 		
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setVisible(true);
 	}
 	
+	@Override
 	public void sendUpdate(String update){
 		controller.update(update);
 	}
 	
+	@Override
 	public void sendQuery(String query){
 		controller.select(query);
 	}
@@ -51,11 +57,15 @@ public class MainFrame extends JFrame implements ChangeListener{
 		controller.show(type);
 	}
 	
-	public void setUserName(String query){
-		username = controller.getUserName(query);
+	public void setUserName(String user){
+		//controller.getUserName contains labels which have to be omitted
+		String[] str = controller.getUserName(user).split("\n");
+		username = str[1].split("\t");
+		nPanel.setUserName(username);
+		bPanel.setUserName(username);
 	}
 	
-	public String getUserName(){
+	public String[] getUserName(){
 		return username;
 	}
 	
@@ -64,10 +74,10 @@ public class MainFrame extends JFrame implements ChangeListener{
 		case LOGIN:
 			if(bPanel.isUser()) {
 				//get user info
-				this.sendQuery(bPanel.getQuery());
+				this.sendQuery(bPanel.sendUser());
 				//retrieve the result
-				username = controller.getResult();
-				nPanel.setUserName(username);
+				setUserName(controller.getResult());
+				//pass the name of the user
 				this.switchPage(PageType.USER);
 			}
 			else this.switchPage(PageType.ADMIN);
@@ -77,14 +87,16 @@ public class MainFrame extends JFrame implements ChangeListener{
 				//get user info to be inserted and send it to controller
 				this.sendUpdate(bPanel.getUpdate());
 				//select the user info
-				this.sendQuery(bPanel.getQuery());
-				username = controller.getResult();
-				nPanel.setUserName(username);
+				this.sendQuery(bPanel.sendUser());
+				setUserName(controller.getResult());
 				this.switchPage(PageType.USER);
 			}
 			break;
 		case LOGOUT:
 			this.switchPage(PageType.START);
+			break;
+		case SEARCH:
+			showTable(getResult());
 			break;
 		case ADMIN_USER:
 		case ADMIN_VIDEO:
@@ -92,20 +104,38 @@ public class MainFrame extends JFrame implements ChangeListener{
 		case ADMIN_FAVORITES:
 		case ADMIN_CHANNEL:
 			sendButtonType(type);
+			switchSection(type);
+			showTable(getResult());
+			break;
+		case USER_HISTORY:
+			sendQuery("select * from history where uid = ?:"
+					+ username[0]);
+			switchSection(type);
 			showTable(getResult());
 			break;
 		case USER_UPLOAD:
-			this.switchSection(SectionType.USER_UPLOAD);
-			break;
-		case USER_HISTORY:
-			this.switchSection(SectionType.USER_HISTORY);
+			this.switchSection(type);
+			sendQuery("select * from video where uid = ?:"
+					+ username[0]);
+			showTable(getResult());
 			break;
 		case USER_FAVORITES:
-			this.switchSection(SectionType.USER_FAVORITES);
+			this.switchSection(type);
+			break;
+		case UPLOAD_VIDEO:
+			sendQuery("select * from video where uid = ?:"
+					+ username[0]);
+			showTable(getResult());
+			break;
+		case SELECT:
+			sendQuery("select * from history where uid = ?:"
+					+ username[0]);
+			showTable(getResult());
 			break;
 		default:
 			break;
 		}
+		this.revalidate();
 	}
 	
 	/**
@@ -121,16 +151,11 @@ public class MainFrame extends JFrame implements ChangeListener{
 		bPanel.showResult(result);
 	}
 	
-	public void switchSection(SectionType sectionType){
-		bPanel.switchSection(sectionType);
+	public void switchSection(ButtonSourceType type){
+		bPanel.switchSection(type);
 	}
 	
 	public String getResult(){
 		return controller.getResult();
-	}
-
-	@Override
-	public void stateChanged(ChangeEvent e) {
-		bPanel.showResult(getResult());
 	}
 }

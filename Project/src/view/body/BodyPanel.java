@@ -1,28 +1,23 @@
 package view.body;
 
-import java.awt.Color;
-import java.awt.FlowLayout;
 import java.util.HashMap;
 
 import javax.swing.JPanel;
-import javax.swing.JTextArea;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 
 import view.MainFrame;
 import view.ButtonSourceType;
 import view.PageType;
+import view.QueryGenerator;
 import view.SectionType;
-import control.Controller;
-import database.Model;
 
-public class BodyPanel extends JPanel{
+public class BodyPanel extends JPanel implements QueryGenerator{
 	public static final int WIDTH = 500;
 	public static final int HEIGHT = 300;
 	
 	private MainFrame mainFrame;
 	private HashMap<PageType, WindowPanel> displayContainer;
 	private WindowPanel currentPanel;
+	private String[] username;
 	
 	public BodyPanel(MainFrame mainFrame){
 		super();
@@ -50,7 +45,7 @@ public class BodyPanel extends JPanel{
 	public void switchBody(PageType pageType){
 		this.removeAll();
 		this.addDisplayPanel(pageType);
-		this.revalidate();
+		this.repaint();
 	}
 	
 	public boolean isNewUser(){
@@ -72,11 +67,25 @@ public class BodyPanel extends JPanel{
 		return panel.registerNewUser();
 	}
 	
-	public String getQuery(){
+	public String sendUser(){
 		StartPanel panel = (StartPanel)currentPanel;
-		return panel.generateQuery();
+		return panel.sendUser();
 	}
 	
+	public void setUserName(String[] username){
+		this.username = username;
+	}
+	
+	public String getUserId(){
+		return username[0];
+	}
+	
+	@Override
+	public void sendUpdate(String update){
+		mainFrame.sendUpdate(update);
+	}
+	
+	@Override
 	public void sendQuery(String query){
 		mainFrame.sendQuery(query);
 	}
@@ -85,7 +94,7 @@ public class BodyPanel extends JPanel{
 		mainFrame.setUserName(query);
 	}
 	
-	public void switchSection(SectionType sectionType){
-		currentPanel.switchSection(sectionType);
+	public void switchSection(ButtonSourceType type){
+		currentPanel.switchSection(type);
 	}
 }

@@ -6,11 +6,9 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import view.ButtonSourceType;
-import view.MainFrame;
 import view.QueryGenerator;
-import view.SectionType;
 
-public class StartPanel extends JPanel implements WindowPanel, QueryGenerator{
+public class StartPanel extends JPanel implements WindowPanel{
 	private JLabel uidLabel;
 	private JLabel nameLabel;
 	private JLabel emailLabel;
@@ -63,11 +61,11 @@ public class StartPanel extends JPanel implements WindowPanel, QueryGenerator{
 	 * @return
 	 */
 	public boolean isUser(){
-		return !getUid().equals("admin");
-	}
-	
-	public void setUserName(){
-		bPanel.setUserName(generateQuery());
+		if(!getUid().equals("admin")) return true;
+		else{
+			uid.setText("");
+			return false;
+		}
 	}
 	
 	public boolean isNewUser(){
@@ -91,13 +89,19 @@ public class StartPanel extends JPanel implements WindowPanel, QueryGenerator{
 				+ getUid() + ":" + getUName() + ":" + getEmail();
 	}
 
-	@Override
-	public String generateQuery() {
+	public String sendUser() {
 		String query = "select * from user where ";
 		if(!getUid().isEmpty()) query += "uid = ?:" + getUid();
 		else if(!getUName().isEmpty()) query += "name = ?:" + getUName();
 		else query += "email = ?:" + getEmail();
+		reset();
 		return query;
+	}
+	
+	public void reset(){
+		uid.setText("");
+		name.setText("");
+		email.setText("");
 	}
 
 	@Override
@@ -109,7 +113,7 @@ public class StartPanel extends JPanel implements WindowPanel, QueryGenerator{
 	public void display(String result) {}
 
 	@Override
-	public void switchSection(SectionType sectionType) {
+	public void switchSection(ButtonSourceType type) {
 		// TODO Auto-generated method stub
 		
 	}
@@ -118,10 +122,5 @@ public class StartPanel extends JPanel implements WindowPanel, QueryGenerator{
 	public void sendAction(ButtonSourceType type) {
 		// TODO Auto-generated method stub
 		
-	}
-
-	@Override
-	public void sendQuery(String query) {
-		bPanel.sendQuery(query);
 	}
 }

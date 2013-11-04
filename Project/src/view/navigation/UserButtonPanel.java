@@ -8,7 +8,6 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 
 import view.ButtonSourceType;
-import view.MainFrame;
 
 public class UserButtonPanel extends JPanel implements ButtonPanel{
 	private JButton upload;

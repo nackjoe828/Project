@@ -1,10 +1,5 @@
 package database;
 
-import java.util.ArrayList;
-
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-
 public class Model {
 	private Connector connector;
 	private String result;
