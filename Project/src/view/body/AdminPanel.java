@@ -1,44 +1,42 @@
 package view.body;
 
-import java.awt.BorderLayout;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
-
-import javax.swing.BoxLayout;
+import java.awt.Color;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.SpringLayout;
 
-import util.TablePanelGenerator;
+import util.TablePanel;
 import view.ButtonSourceType;
 
 public class AdminPanel extends JPanel implements WindowPanel, TableListener{
 	private JPanel panel;
 	private BodyPanel bPanel;
 	private JScrollPane scroll;
+	private SpringLayout layout;
+	private JPanel buttonContainer;
+	private JPanel tablePanel;
+	private JScrollPane scrollPane;
+	private TablePanel tp;
 	
 	public AdminPanel(BodyPanel bPanel){
 		super();
-		this.setLayout(new FlowLayout());
+		this.setBackground(new Color(245,245,245));
+		layout = new SpringLayout();
+		this.setLayout(layout);
 		this.bPanel = bPanel;
 		this.panel = new JPanel();
-		this.add(panel);
-	}
-	
-	@Override
-	public JPanel get() {
-		return this;
 	}
 
 	@Override
-	public void display(String result) {
+	public void display(String result, ButtonSourceType type) {
 		this.removeAll();
-		TablePanelGenerator tpg = new TablePanelGenerator(result, this);
-		panel = tpg.getPanel();
-		scroll = new JScrollPane(panel,
-				JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-		//panel.setPreferredSize(new Dimension(this.getWidth(), this.getHeight()));
-		this.add(BorderLayout.CENTER, scroll);
-		this.revalidate();
+		tp = new TablePanel(result, this);
+		layout.putConstraint(layout.NORTH, tp, 5, layout.NORTH, this);
+		layout.putConstraint(layout.WEST, tp, 5, layout.WEST, this);
+		layout.putConstraint(layout.SOUTH, tp, -5, layout.SOUTH, this);
+		layout.putConstraint(layout.EAST, tp, -5, layout.EAST, this);
+		this.add(tp);
+		this.repaint();
 	}
 
 	@Override
@@ -57,5 +55,11 @@ public class AdminPanel extends JPanel implements WindowPanel, TableListener{
 	public void selectRow(String row) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public JPanel get() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

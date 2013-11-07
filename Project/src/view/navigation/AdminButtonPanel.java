@@ -1,11 +1,12 @@
 package view.navigation;
 
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JPanel;
+import javax.swing.SpringLayout;
 
 import view.ButtonSourceType;
 
@@ -17,11 +18,14 @@ public class AdminButtonPanel extends JPanel implements ButtonPanel{
 	private JButton channel;
 	private JButton logout;
 	private NavigationPanel nPanel;
+	private SpringLayout layout;
 	
 	public AdminButtonPanel(NavigationPanel nPanel){
 		super();
+		this.setBackground(new Color(245,245,245));
 		this.nPanel = nPanel;
-		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+		layout = new SpringLayout();
+		this.setLayout(layout);
 		this.addUserButton();
 		this.addHistoryButton();
 		this.addVideo();
@@ -38,6 +42,10 @@ public class AdminButtonPanel extends JPanel implements ButtonPanel{
 				sendAction(ButtonSourceType.ADMIN_USER);
 			}
 		});
+		layout.putConstraint(layout.NORTH, user, 5, layout.NORTH, this);
+		layout.putConstraint(layout.WEST, user, 5, layout.WEST, this);
+		layout.putConstraint(layout.SOUTH, user, 40, layout.NORTH, this);
+		layout.putConstraint(layout.EAST, user, -5, layout.EAST, this);
 		this.add(user);
 	}
 	
@@ -49,6 +57,10 @@ public class AdminButtonPanel extends JPanel implements ButtonPanel{
 				sendAction(ButtonSourceType.ADMIN_HISTORY);
 			}
 		});
+		layout.putConstraint(layout.NORTH, history, 5, layout.SOUTH, user);
+		layout.putConstraint(layout.WEST, history, 5, layout.WEST, this);
+		layout.putConstraint(layout.SOUTH, history, 40, layout.SOUTH, user);
+		layout.putConstraint(layout.EAST, history, -5, layout.EAST, this);
 		this.add(history);
 	}
 	
@@ -60,6 +72,10 @@ public class AdminButtonPanel extends JPanel implements ButtonPanel{
 				sendAction(ButtonSourceType.ADMIN_VIDEO);
 			}
 		});
+		layout.putConstraint(layout.NORTH, video, 5, layout.SOUTH, history);
+		layout.putConstraint(layout.WEST, video, 5, layout.WEST, this);
+		layout.putConstraint(layout.SOUTH, video, 40, layout.SOUTH, history);
+		layout.putConstraint(layout.EAST, video, -5, layout.EAST, this);
 		this.add(video);
 	}
 	
@@ -71,6 +87,10 @@ public class AdminButtonPanel extends JPanel implements ButtonPanel{
 				sendAction(ButtonSourceType.ADMIN_FAVORITES);
 			}
 		});
+		layout.putConstraint(layout.NORTH, favorites, 5, layout.SOUTH, video);
+		layout.putConstraint(layout.WEST, favorites, 5, layout.WEST, this);
+		layout.putConstraint(layout.SOUTH, favorites, 40, layout.SOUTH, video);
+		layout.putConstraint(layout.EAST, favorites, -5, layout.EAST, this);
 		this.add(favorites);
 	}
 	
@@ -82,6 +102,10 @@ public class AdminButtonPanel extends JPanel implements ButtonPanel{
 				sendAction(ButtonSourceType.ADMIN_CHANNEL);
 			}
 		});
+		layout.putConstraint(layout.NORTH, channel, 5, layout.SOUTH, favorites);
+		layout.putConstraint(layout.WEST, channel, 5, layout.WEST, this);
+		layout.putConstraint(layout.SOUTH, channel, 40, layout.SOUTH, favorites);
+		layout.putConstraint(layout.EAST, channel, -5, layout.EAST, this);
 		this.add(channel);
 	}
 	
@@ -93,6 +117,10 @@ public class AdminButtonPanel extends JPanel implements ButtonPanel{
 				sendAction(ButtonSourceType.LOGOUT);
 			}
 		});
+		layout.putConstraint(layout.NORTH, logout, -40, layout.SOUTH, this);
+		layout.putConstraint(layout.WEST, logout, 5, layout.WEST, this);
+		layout.putConstraint(layout.SOUTH, logout, -5, layout.SOUTH, this);
+		layout.putConstraint(layout.EAST, logout, -5, layout.EAST, this);
 		this.add(logout);
 	}
 

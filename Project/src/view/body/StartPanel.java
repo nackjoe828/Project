@@ -1,12 +1,15 @@
 package view.body;
 
+import java.awt.Color;
+import java.awt.FlowLayout;
+
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.SpringLayout;
 
 import view.ButtonSourceType;
-import view.QueryGenerator;
 
 public class StartPanel extends JPanel implements WindowPanel{
 	private JLabel uidLabel;
@@ -15,45 +18,76 @@ public class StartPanel extends JPanel implements WindowPanel{
 	private JTextField uid;
 	private JTextField name;
 	private JTextField email;
+	private JPanel uidPanel;
+	private JPanel namePanel;
+	private JPanel emailPanel;
 	private BodyPanel bPanel;
+	private SpringLayout layout;
 	
 	public StartPanel(BodyPanel bPanel){
 		super();
+		this.setBackground(new Color(245,245,245));
 		this.bPanel = bPanel;
-		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+		layout = new SpringLayout();
+		this.setLayout(layout);
 		this.createUidPanel();
 		this.createNamePanel();
 		this.createEmailPanel();
+		this.putConstraints();
+		this.add(uidPanel);
+		this.add(namePanel);
+		this.add(emailPanel);
+	}
+	
+	private void putConstraints(){
+		//for uidPanel
+		layout.putConstraint(layout.NORTH, uidPanel, 100, layout.NORTH, this);
+		layout.putConstraint(layout.WEST, uidPanel, 100, layout.WEST, this);
+		layout.putConstraint(layout.SOUTH, uidPanel, 50, layout.NORTH, uidPanel);
+		layout.putConstraint(layout.EAST, uidPanel, 200, layout.WEST, uidPanel);
+		//for namePanel
+		layout.putConstraint(layout.NORTH, namePanel, 5, layout.SOUTH, uidPanel);
+		layout.putConstraint(layout.WEST, namePanel, 100, layout.WEST, this);
+		layout.putConstraint(layout.SOUTH, namePanel, 50, layout.NORTH, namePanel);
+		layout.putConstraint(layout.EAST, namePanel, 200, layout.WEST, namePanel);
+		//for emailPanel
+		layout.putConstraint(layout.NORTH, emailPanel, 5, layout.SOUTH, namePanel);
+		layout.putConstraint(layout.WEST, emailPanel, 100, layout.WEST, this);
+		layout.putConstraint(layout.SOUTH, emailPanel, 50, layout.NORTH, emailPanel);
+		layout.putConstraint(layout.EAST, emailPanel, 200, layout.WEST, emailPanel);
 	}
 	
 	private void createUidPanel(){
-		JPanel uidPanel = new JPanel();
+		uidPanel = new JPanel();
+		uidPanel.setOpaque(false);
+		uidPanel.setLayout(new FlowLayout(FlowLayout.RIGHT));
 		uidLabel = new JLabel("uid : ");
 		uid = new JTextField();
 		uid.setColumns(10);
 		uidPanel.add(uidLabel);
 		uidPanel.add(uid);
-		this.add(uidPanel);
 	}
 	
 	private void createNamePanel(){
-		JPanel namePanel = new JPanel();
+		namePanel = new JPanel();
+		namePanel.setOpaque(false);
+		namePanel.setLayout(new FlowLayout(FlowLayout.RIGHT));
 		nameLabel = new JLabel("name : ");
 		name = new JTextField();
 		name.setColumns(10);
 		namePanel.add(nameLabel);
 		namePanel.add(name);
-		this.add(namePanel);
 	}
 	
 	private void createEmailPanel(){
-		JPanel emailPanel = new JPanel();
+		emailPanel = new JPanel();
+		emailPanel.setOpaque(false);
+		emailPanel.setLayout(new FlowLayout(FlowLayout.RIGHT));
 		emailLabel = new JLabel("email : ");
 		email = new JTextField();
 		email.setColumns(10);
 		emailPanel.add(emailLabel);
 		emailPanel.add(email);
-		this.add(emailPanel);
 	}
 	
 	/**
@@ -110,7 +144,7 @@ public class StartPanel extends JPanel implements WindowPanel{
 	}
 
 	@Override
-	public void display(String result) {}
+	public void display(String result, ButtonSourceType type) {}
 
 	@Override
 	public void switchSection(ButtonSourceType type) {

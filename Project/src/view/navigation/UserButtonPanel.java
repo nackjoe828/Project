@@ -1,11 +1,12 @@
 package view.navigation;
 
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JPanel;
+import javax.swing.SpringLayout;
 
 import view.ButtonSourceType;
 
@@ -15,11 +16,14 @@ public class UserButtonPanel extends JPanel implements ButtonPanel{
 	private JButton favorites;
 	private JButton logout;
 	private NavigationPanel nPanel;
+	private SpringLayout layout;
 	
 	public UserButtonPanel(NavigationPanel nPanel){
 		super();
+		this.setBackground(new Color(245,245,245));
 		this.nPanel = nPanel;
-		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+		layout = new SpringLayout();
+		this.setLayout(layout);
 		this.addUploadButton();
 		this.addHistoryButton();
 		this.addFavoritesButton();
@@ -34,6 +38,10 @@ public class UserButtonPanel extends JPanel implements ButtonPanel{
 				sendAction(ButtonSourceType.USER_UPLOAD);
 			}
 		});
+		layout.putConstraint(layout.NORTH, upload, 5, layout.NORTH, this);
+		layout.putConstraint(layout.WEST, upload, 5, layout.WEST, this);
+		layout.putConstraint(layout.SOUTH, upload, 40, layout.NORTH, this);
+		layout.putConstraint(layout.EAST, upload, -5, layout.EAST, this);
 		this.add(upload);
 	}
 	
@@ -45,6 +53,10 @@ public class UserButtonPanel extends JPanel implements ButtonPanel{
 				sendAction(ButtonSourceType.USER_HISTORY);
 			}
 		});
+		layout.putConstraint(layout.NORTH, history, 5, layout.SOUTH, upload);
+		layout.putConstraint(layout.WEST, history, 5, layout.WEST, this);
+		layout.putConstraint(layout.SOUTH, history, 40, layout.SOUTH, upload);
+		layout.putConstraint(layout.EAST, history, -5, layout.EAST, this);
 		this.add(history);
 	}
 	
@@ -56,6 +68,10 @@ public class UserButtonPanel extends JPanel implements ButtonPanel{
 				sendAction(ButtonSourceType.USER_FAVORITES);
 			}
 		});
+		layout.putConstraint(layout.NORTH, favorites, 5, layout.SOUTH, history);
+		layout.putConstraint(layout.WEST, favorites, 5, layout.WEST, this);
+		layout.putConstraint(layout.SOUTH, favorites, 40, layout.SOUTH, history);
+		layout.putConstraint(layout.EAST, favorites, -5, layout.EAST, this);
 		this.add(favorites);
 	}
 	
@@ -67,6 +83,10 @@ public class UserButtonPanel extends JPanel implements ButtonPanel{
 				sendAction(ButtonSourceType.LOGOUT);
 			}
 		});
+		layout.putConstraint(layout.NORTH, logout, -40, layout.SOUTH, this);
+		layout.putConstraint(layout.WEST, logout, 5, layout.WEST, this);
+		layout.putConstraint(layout.SOUTH, logout, -5, layout.SOUTH, this);
+		layout.putConstraint(layout.EAST, logout, -5, layout.EAST, this);
 		this.add(logout);
 	}
 

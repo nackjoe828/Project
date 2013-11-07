@@ -1,61 +1,97 @@
 package view.body;
 
-import java.util.HashMap;
-
+import java.awt.Color;
+import javax.swing.BorderFactory;
 import javax.swing.JPanel;
+import javax.swing.SpringLayout;
+import javax.swing.border.EtchedBorder;
 
 import view.MainFrame;
 import view.ButtonSourceType;
 import view.PageType;
 import view.QueryGenerator;
-import view.SectionType;
 
 public class BodyPanel extends JPanel implements QueryGenerator{
-	public static final int WIDTH = 500;
-	public static final int HEIGHT = 300;
 	
 	private MainFrame mainFrame;
-	private HashMap<PageType, WindowPanel> displayContainer;
-	private WindowPanel currentPanel;
+	private StartPanel sPanel;
+	private AdminPanel aPanel;
+	private UserPanel uPanel;
 	private String[] username;
+	private SpringLayout layout;
 	
 	public BodyPanel(MainFrame mainFrame){
 		super();
+		this.setBackground(new Color(112,138,144));
 		this.mainFrame = mainFrame;
-		displayContainer = new HashMap<PageType, WindowPanel>();
+		layout = new SpringLayout();
+		this.setLayout(layout);
 		this.initializePage();
+		this.putConstraints();
 		this.addDisplayPanel(PageType.START);
 	}
 	
+	private void putConstraints(){
+		//for start page
+		layout.putConstraint(layout.NORTH, sPanel, 5, layout.NORTH, this);
+		layout.putConstraint(layout.WEST, sPanel, 5, layout.WEST, this);
+		layout.putConstraint(layout.SOUTH, sPanel, -5, layout.SOUTH, this);
+		layout.putConstraint(layout.EAST, sPanel, -5, layout.EAST, this);
+		//for user page
+		layout.putConstraint(layout.NORTH, aPanel, 5, layout.NORTH, this);
+		layout.putConstraint(layout.WEST, aPanel, 5, layout.WEST, this);
+		layout.putConstraint(layout.SOUTH, aPanel, -5, layout.SOUTH, this);
+		layout.putConstraint(layout.EAST, aPanel, -5, layout.EAST, this);
+		//for user page
+		layout.putConstraint(layout.NORTH, uPanel, 5, layout.NORTH, this);
+		layout.putConstraint(layout.WEST, uPanel, 5, layout.WEST, this);
+		layout.putConstraint(layout.SOUTH, uPanel, -5, layout.SOUTH, this);
+		layout.putConstraint(layout.EAST, uPanel, -5, layout.EAST, this);
+	}
+	
 	private void initializePage(){
-		displayContainer.put(PageType.START, new StartPanel(this));
-		displayContainer.put(PageType.ADMIN, new AdminPanel(this));
-		displayContainer.put(PageType.USER, new UserPanel(this));
+		sPanel = new StartPanel(this);
+		sPanel.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED));
+		aPanel = new AdminPanel(this);
+		aPanel.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED));
+		uPanel = new UserPanel(this);
+		uPanel.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED));
 	}
 	
 	public void addDisplayPanel(PageType pageType){
-		currentPanel = displayContainer.get(pageType);
-		this.add(currentPanel.get());
+		switch (pageType){
+		case START:
+			this.add(sPanel);
+			break;
+		case ADMIN:
+			this.add(aPanel);
+			break;
+		case USER:
+			this.add(uPanel);
+			break;
+		}
+		this.repaint();
 	}
 	
-	public void showResult(String result){
-		currentPanel.display(result);
+	public void showResult(String result, ButtonSourceType type){
+		sPanel.display(result, type);
+		aPanel.display(result, type);
+		uPanel.display(result, type);
 	}
 	
 	public void switchBody(PageType pageType){
 		this.removeAll();
+		this.putConstraints();
 		this.addDisplayPanel(pageType);
 		this.repaint();
 	}
 	
 	public boolean isNewUser(){
-		StartPanel panel = (StartPanel)currentPanel;
-		return panel.isNewUser();
+		return sPanel.isNewUser();
 	}
 	
 	public boolean isUser(){
-		StartPanel panel = (StartPanel)currentPanel;
-		return panel.isUser();
+		return sPanel.isUser();
 	}
 	
 	public void sendMessage(ButtonSourceType type){
@@ -63,13 +99,11 @@ public class BodyPanel extends JPanel implements QueryGenerator{
 	}
 	
 	public String getUpdate(){
-		StartPanel panel = (StartPanel)currentPanel;
-		return panel.registerNewUser();
+		return sPanel.registerNewUser();
 	}
 	
 	public String sendUser(){
-		StartPanel panel = (StartPanel)currentPanel;
-		return panel.sendUser();
+		return sPanel.sendUser();
 	}
 	
 	public void setUserName(String[] username){
@@ -95,6 +129,8 @@ public class BodyPanel extends JPanel implements QueryGenerator{
 	}
 	
 	public void switchSection(ButtonSourceType type){
-		currentPanel.switchSection(type);
+		sPanel.switchSection(type);
+		aPanel.switchSection(type);
+		uPanel.switchSection(type);
 	}
 }

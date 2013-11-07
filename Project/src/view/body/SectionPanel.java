@@ -9,5 +9,5 @@ public interface SectionPanel {
 	
 	public void sendAction(ButtonSourceType type);
 	
-	public void display(String result);
+	public void display(String result, ButtonSourceType type);
 }

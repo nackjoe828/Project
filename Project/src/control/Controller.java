@@ -8,6 +8,7 @@ public class Controller {
 	private Model model;
 	private MainFrame mFrame;
 	private String result;
+	private int updateStatus;
 	
 	public Controller(Model model){
 		this.model = model;
@@ -39,9 +40,7 @@ public class Controller {
 	}
 	
 	public void update(String update){
-		try{
-			int i = model.update(update);
-		}catch(Exception e){}
+		updateStatus = model.update(update);
 	}
 	
 	public void select(String query){
@@ -60,5 +59,9 @@ public class Controller {
 	
 	public String getResult(){
 		return result;
+	}
+	
+	public int getUpdateStatus(){
+		return updateStatus;
 	}
 }

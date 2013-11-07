@@ -7,6 +7,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.SpringLayout;
 
 import view.ButtonSourceType;
 import view.QueryGenerator;
@@ -20,19 +21,35 @@ public class UploadPanel extends JPanel implements SectionPanel, QueryGenerator{
 	private JLabel message;
 	private WindowPanel dPanel;
 	private JButton upload;
+	private SpringLayout layout;
 	
-	private static final String intro = "Enter vid to upload";
+	private static final String intro = "Enter vid to upload : ";
 	
 	public UploadPanel(WindowPanel dPanel){
 		super();
 		this.dPanel = dPanel;
+		this.layout = new SpringLayout();
+		this.setLayout(layout);
 		vid = new JLabel(intro);
 		vidfield = new JTextField(10);
-		message = new JLabel();
-		this.add(message);
-		this.add(vid);
-		this.add(vidfield);
 		this.addUploadButton();
+		this.addLabelInput();
+	}
+	
+	private void addLabelInput(){
+		//for jcbox
+		layout.putConstraint(layout.NORTH, vid, 5, layout.NORTH, this);
+		layout.putConstraint(layout.WEST, vid, 5, layout.WEST, this);
+		layout.putConstraint(layout.SOUTH, vid, 40, layout.NORTH, this);
+		layout.putConstraint(layout.EAST, vid, 150, layout.WEST, this);
+		this.add(vid);
+		//for input
+		layout.putConstraint(layout.NORTH, vidfield, 5, layout.NORTH, this);
+		layout.putConstraint(layout.WEST, vidfield, 5, layout.EAST, vid);
+		layout.putConstraint(layout.SOUTH, vidfield, 40, layout.NORTH, this);
+		layout.putConstraint(layout.EAST, vidfield, -5, layout.WEST, upload);
+		this.add(vidfield);
+		
 	}
 	
 	private void addUploadButton(){
@@ -47,6 +64,11 @@ public class UploadPanel extends JPanel implements SectionPanel, QueryGenerator{
 				vidfield.setText("");
 			}
 		});
+		//for search
+		layout.putConstraint(layout.NORTH, upload, 5, layout.NORTH, this);
+		layout.putConstraint(layout.WEST, upload, -150, layout.EAST, this);
+		layout.putConstraint(layout.SOUTH, upload, 40, layout.NORTH, this);
+		layout.putConstraint(layout.EAST, upload, -5, layout.EAST, this);
 		this.add(upload);
 	}
 	
@@ -66,7 +88,7 @@ public class UploadPanel extends JPanel implements SectionPanel, QueryGenerator{
 	}
 
 	@Override
-	public void display(String result) {
+	public void display(String result, ButtonSourceType type) {
 		
 	}
 

@@ -9,8 +9,12 @@ public class Model {
 		result = "";
 	}
 	
-	public int update(String query) throws Exception{
-		return connector.update(query);
+	public int update(String query){
+		try{
+			return connector.update(query);
+		}catch(Exception e){
+			return 0;
+		}
 	}
 	
 	public void select(String query) throws Exception{

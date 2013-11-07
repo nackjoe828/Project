@@ -1,14 +1,13 @@
 import database.Model;
 
-import java.sql.*;
-
 import javax.swing.JFrame;
 
 import control.Controller;
-import util.TablePanelGenerator;
+import util.TablePanel;
 import view.MainFrame;
+import view.body.TableListener;
 
-public class Video {
+public class Video implements TableListener{
 	public Video() {
 		try{
 			Model model = new Model();
@@ -27,17 +26,35 @@ public class Video {
 	public void testTable(Model model) throws Exception{
 		model.select("select * from history");
 		String str = model.getResult() + "\n" + model.getResult() + "\n"+ model.getResult();
-		System.out.println(str);
+		//System.out.println(str);
 		
 		JFrame frame = new JFrame();
 		frame.setSize(600, 300);
-		TablePanelGenerator tpg = new TablePanelGenerator(str, null);
-		frame.add(tpg.getPanel());
+		TablePanel tp = new TablePanel("clear", null);
+		frame.add(tp);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
 	}
 	
 	public void sqlTester(Model model) throws Exception{
-		model.update("insert into history (uid, vid, date) values (53, )");
+		int i = model.update("insert into user values (?,?,?):1003:naoki:naoki");
+		System.out.println(i);
+	}
+
+	@Override
+	public void selectRow(String row) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public int getWidth() {
+		return 0;
+	}
+
+	@Override
+	public int getHeight() {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 }
