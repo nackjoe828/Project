@@ -34,6 +34,7 @@ public class MainFrame extends JFrame implements QueryGenerator{
 		layout = new SpringLayout();
 		container.setLayout(layout);
 		this.controller = controller;
+		controller.setFrame(this);
 		
 		errorPanel = new JPanel();
 		errorPanel.setBorder(new EtchedBorder(EtchedBorder.RAISED));
@@ -83,93 +84,34 @@ public class MainFrame extends JFrame implements QueryGenerator{
 		controller.show(type);
 	}
 	
-	public void setUserName(String user){
+	public void setUserName(String[] user){
 		//controller.getUserName contains labels which have to be omitted
-		String[] str = controller.getUserName(user).split("\n");
-		username = str[1].split("\t");
-		nPanel.setUserName(username);
-		bPanel.setUserName(username);
+		nPanel.setUserName(user);
+		bPanel.setUserName(user);
 	}
 	
 	public String[] getUserName(){
 		return username;
 	}
 	
-	public void sendMessage(ButtonSourceType type){
-		switch (type){
-		case LOGIN:
-			if(bPanel.isUser()) {
-				//get user info
-				this.sendQuery(bPanel.sendUser());
-				//retrieve the result
-				setUserName(controller.getResult());
-				//pass the name of the user
-				this.switchPage(PageType.USER);
-			}
-			else this.switchPage(PageType.ADMIN);
-			break;
-		case REGISTER:
-			if(bPanel.isNewUser()){
-				//get user info to be inserted and send it to controller
-				this.sendUpdate(bPanel.getUpdate());
-				if(controller.getUpdateStatus() == 1){
-					//select the user info
-					this.sendQuery(bPanel.sendUser());
-					setUserName(controller.getResult());
-					this.switchPage(PageType.USER);
-				}
-				else{
-					this.showErrorMessage();
-				}
-			}
-			break;
-		case LOGOUT:
-			this.switchPage(PageType.START);
-			showTable("clear", null);
-			break;
-		case SEARCH:
-			switchSection(type);
-			showTable(getResult(), null);
-			break;
-		case ADMIN_USER:
-		case ADMIN_VIDEO:
-		case ADMIN_HISTORY:
-		case ADMIN_FAVORITES:
-		case ADMIN_CHANNEL:
-			sendButtonType(type);
-			switchSection(type);
-			showTable(getResult(), null);
-			break;
-		case USER_HISTORY:
-			sendQuery("select * from history where uid = ?:"
-					+ username[0]);
-			switchSection(type);
-			showTable(getResult(), null);
-			break;
-		case USER_UPLOAD:
-			//this.switchSection(type);
-			sendQuery("select * from video where uid = ?:"
-					+ username[0]);
-			switchSection(type);
-			showTable(getResult(), type);
-			break;
-		case USER_FAVORITES:
-			switchSection(type);
-			break;
-		case UPLOAD_VIDEO:
-			sendQuery("select * from video where uid = ?:"
-					+ username[0]);
-			showTable(getResult(), null);
-			break;
-		case SELECT:
-			sendQuery("select * from history where uid = ?:"
-					+ username[0]);
-			showTable(getResult(), null);
-			break;
-		default:
-			break;
-		}
-		this.revalidate();
+	public void sendAction(ButtonSourceType type){
+		controller.execute(type);
+	}
+	
+	public boolean isUser(){
+		return bPanel.isUser();
+	}
+	
+	public boolean isNewUser(){
+		return bPanel.isNewUser();
+	}
+	
+	public String getUpdate(){
+		return bPanel.getUpdate();
+	}
+	
+	public String selectUser(){
+		return bPanel.sendUser();
 	}
 	
 	/**
@@ -179,14 +121,17 @@ public class MainFrame extends JFrame implements QueryGenerator{
 	public void switchPage(PageType pageType){
 		nPanel.switchNavigation(pageType);
 		bPanel.switchBody(pageType);
+		this.revalidate();
 	}
 	
 	public void showTable(String result, ButtonSourceType type){
 		bPanel.showResult(result, type);
+		this.revalidate();
 	}
 	
 	public void switchSection(ButtonSourceType type){
 		bPanel.switchSection(type);
+		this.revalidate();
 	}
 	
 	public String getResult(){

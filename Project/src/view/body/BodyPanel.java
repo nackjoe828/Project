@@ -95,7 +95,7 @@ public class BodyPanel extends JPanel implements QueryGenerator{
 	}
 	
 	public void sendMessage(ButtonSourceType type){
-		mainFrame.sendMessage(type);
+		mainFrame.sendAction(type);
 	}
 	
 	public String getUpdate(){
@@ -122,10 +122,6 @@ public class BodyPanel extends JPanel implements QueryGenerator{
 	@Override
 	public void sendQuery(String query){
 		mainFrame.sendQuery(query);
-	}
-	
-	public void setUserName(String query){
-		mainFrame.setUserName(query);
 	}
 	
 	public void switchSection(ButtonSourceType type){

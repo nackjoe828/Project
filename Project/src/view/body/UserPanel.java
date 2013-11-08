@@ -134,7 +134,7 @@ public class UserPanel extends JPanel implements WindowPanel, QueryGenerator, Ta
 				else 
 					sendQuery("select * from channel where cid = ?:"
 							+ input.getText());
-				sendAction(ButtonSourceType.SEARCH);
+				sendAction(ButtonSourceType.USER_SEARCH);
 			}
 		});
 	}
@@ -200,7 +200,7 @@ public class UserPanel extends JPanel implements WindowPanel, QueryGenerator, Ta
 	@Override
 	public void switchSection(ButtonSourceType type) {
 		switch (type){
-		case SEARCH:
+		case USER_SEARCH:
 			displaySearchResult();
 			break;
 		case USER_HISTORY:

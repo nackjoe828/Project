@@ -74,8 +74,8 @@ public class NavigationPanel extends JPanel{
 		ubPanel.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED));
 	}
 
-	public void sendMessage(ButtonSourceType buttonType){
-		mainFrame.sendMessage(buttonType);
+	public void sendAction(ButtonSourceType buttonType){
+		mainFrame.sendAction(buttonType);
 	}
 	
 	public void addButtonPanel(PageType pageType){
