@@ -92,7 +92,7 @@ public class UserButtonPanel extends JPanel implements ButtonPanel{
 
 	@Override
 	public void sendAction(ButtonSourceType type) {
-		nPanel.sendMessage(type);
+		nPanel.sendAction(type);
 	}
 
 	@Override
