@@ -11,6 +11,7 @@ public class Controller {
 	private String result;
 	private int updateStatus;
 	private String[] user;
+	private String[] selectedTuple;
 	
 	public Controller(Model model){
 		this.model = model;
@@ -57,6 +58,7 @@ public class Controller {
 				mFrame.switchSection(type);
 				mFrame.showTable(result, null);
 				break;
+			case ARCHIVE:
 			case USER_SEARCH:
 				mFrame.switchSection(type);
 				mFrame.showTable(result, null);
@@ -72,7 +74,9 @@ public class Controller {
 				mFrame.showTable(result, null);
 				break;
 			case USER_FAVORITES:
+				select("select * from favorites where uid = ?:" + user[0]);
 				mFrame.switchSection(type);
+				mFrame.showTable(result, null);
 				break;
 			case UPLOAD_VIDEO:
 				select("select * from video where uid = ?:" + user[0]);
@@ -85,7 +89,7 @@ public class Controller {
 			default:
 				break;
 			}
-		}catch(Exception e){}
+		}catch(Exception e){System.out.println("error");}
 	}
 	
 	public void setUserName(){
@@ -129,6 +133,10 @@ public class Controller {
 			model.select(query);
 		}catch(Exception e){}
 		result = model.getResult();
+	}
+	
+	public void setSelectedTuple(String[] row){
+		this.selectedTuple = row;
 	}
 	
 	public String getUserName(String query){

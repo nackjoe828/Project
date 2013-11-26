@@ -58,6 +58,42 @@ public class Model {
 		result = connector.select("SELECT vid, title FROM Video where count >= all(select count from video where date > now() - interval 7 day and date < now() ) and date > now() - interval 7 day and date < now() ");
 	}
 	
+	public void getMostFamous() throws Exception
+	{
+		result = connector.select("SELECT vid, count FROM Video	WHERE count >= all (SELECT count FROM Video) ");
+	}
+	
+	public void getInactiveUser() throws Exception
+	{
+		result = connector.select("select name, uID, email from User where uID not in (select distinct uID from History where Date >= now() - interval 90 day);");
+	}
+	
+	public void channelavgrating(int cID) throws Exception
+	{
+		String query = "select avg(h1.rat) from(select vid, avg(rating) as rat from history where vid in (select vid from video where cID = ";
+		query = query + Integer.toString(cID) + ")group by vid)h1";
+		System.out.println(query);
+		result = connector.select(query);
+	}
+	
+	public void latestVideo(int cID) throws Exception
+	{
+		String query = "select vid, title from video where date in (select max(date) from video where cid =";
+		query = query + Integer.toString(cID) + ")";
+		System.out.println(query);
+		result = connector.select(query);
+	}
+	
+	public void recommendation(int uID) throws Exception
+	{
+		String query = "select distinct f3.vID from favorites f1, favorites f2, favorites f3 where f1.uID =";
+		query = query + Integer.toString(uID) + "and f1.uID <> f2.uID and f1.vID = f2.vID and f2.uID = f3.uID and f3.vID <> f1.vID limit 5";
+		System.out.println(query);
+		result = connector.select(query);
+	}
+	
+	
+	
 	
 	public String getResult(){
 		return result.trim();
