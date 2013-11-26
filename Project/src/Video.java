@@ -24,9 +24,9 @@ public class Video implements TableListener{
 	}
 	
 	public void testTable(Model model) throws Exception{
-		model.select("select * from history");
+		model.select("select * from user");
 		String str = model.getResult() + "\n" + model.getResult() + "\n"+ model.getResult();
-		//System.out.println(str);
+		System.out.println(str);
 		
 		JFrame frame = new JFrame();
 		frame.setSize(600, 300);
