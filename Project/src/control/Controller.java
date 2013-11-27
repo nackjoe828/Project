@@ -1,5 +1,10 @@
 package control;
 
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+
 import view.ButtonSourceType;
 import view.MainFrame;
 import view.PageType;
@@ -12,6 +17,7 @@ public class Controller {
 	private int updateStatus;
 	private String[] user;
 	private String[] selectedTuple;
+	private JTextField inputtext;
 	
 	public Controller(Model model){
 		this.model = model;
@@ -45,9 +51,65 @@ public class Controller {
 				}
 				else mFrame.switchPage(PageType.ADMIN);
 				break;
+			case CHANNEL_AVE:
+				System.out.println(selectedTuple[0]);
+				model.channelavgrating(Integer.parseInt(selectedTuple[0]));
+				result = model.getResult();
+				System.out.println("Channel Average");
+				mFrame.switchSection(type);
+				mFrame.showTable(result, null);
+				break;
+			case CHANNEL_LATEST:
+				System.out.println(selectedTuple[0]);
+				model.latestVideo(Integer.parseInt(selectedTuple[0]));
+				result = model.getResult();
+				System.out.println("Lastest Video");
+				mFrame.switchSection(type);
+				mFrame.showTable(result, null);
+				break;
+			case USER_RECOMMEND:
+				model.recommendation(Integer.parseInt(user[0]));
+				result = model.getResult();
+				System.out.println("RECOMMENDATION");
+				mFrame.switchSection(type);
+				mFrame.showTable(result, null);
+				break;
 			case LOGOUT:
 				mFrame.switchPage(PageType.START);
 				mFrame.showTable("clear", null);
+				break;
+			case ARCHIVE:
+				//System.out.println("WSDFSDFASF");
+				String input;
+				int number = JOptionPane.showConfirmDialog(null, getPanel(), "Enter Date YYYY-MM-DD", JOptionPane.OK_CANCEL_OPTION);
+				if( number == JOptionPane.OK_OPTION)
+				{
+					input = inputtext.getText();
+					input = "'" + input + "'";
+					model.archievetable(input);
+					//System.out.println(input);
+				}
+				break;
+			case MOST_FAMOUS:
+				model.getMostFamous();
+				result = model.getResult();
+				System.out.println("Most Famous");
+				mFrame.switchSection(type);
+				mFrame.showTable(result, null);
+				break;
+			case RECENT_HOT:
+				model.getRecentHot();
+				result = model.getResult();
+				System.out.println("RECENT_Hot");
+				mFrame.switchSection(type);
+				mFrame.showTable(result, null);
+				break;
+			case INACTIVE_USER:
+				model.getInactiveUser();
+				result = model.getResult();
+				System.out.println("Inactive userl");
+				mFrame.switchSection(type);
+				mFrame.showTable(result, null);
 				break;
 			case ADMIN_USER:
 			case ADMIN_VIDEO:
@@ -58,7 +120,6 @@ public class Controller {
 				mFrame.switchSection(type);
 				mFrame.showTable(result, null);
 				break;
-			case ARCHIVE:
 			case USER_SEARCH:
 				mFrame.switchSection(type);
 				mFrame.showTable(result, null);
@@ -152,5 +213,14 @@ public class Controller {
 	
 	public int getUpdateStatus(){
 		return updateStatus;
+	}
+	
+	public JPanel getPanel()
+	{
+		JPanel bozispanel = new JPanel();
+		inputtext = new JTextField(10);
+		bozispanel.add(new JLabel("Enter Date"));
+		bozispanel.add(inputtext);
+		return bozispanel;
 	}
 }

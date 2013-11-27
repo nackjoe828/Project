@@ -15,8 +15,8 @@ import view.navigation.NavigationPanel;
 import control.Controller;
 
 public class MainFrame extends JFrame implements QueryGenerator{
-	public static final int WIDTH = 1000;
-	public static final int HEIGHT = 500;
+	public static final int WIDTH = 1200;
+	public static final int HEIGHT = 700;
 	
 	private Controller controller;
 	private NavigationPanel nPanel;
@@ -78,6 +78,10 @@ public class MainFrame extends JFrame implements QueryGenerator{
 	@Override
 	public void sendQuery(String query){
 		controller.select(query);
+	}
+	
+	public void sendSelectedTuple(String[] row){
+		controller.setSelectedTuple(row);
 	}
 	
 	public void sendButtonType(ButtonSourceType type){

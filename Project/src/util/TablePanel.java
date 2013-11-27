@@ -1,9 +1,11 @@
 package util;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -37,7 +39,7 @@ public class TablePanel extends JPanel{
 		layout = new SpringLayout();
 		this.setLayout(layout);
 		this.listener = listener;
-		buttonWidth = listener.getWidth() / 5;
+		buttonWidth = listener.getWidth() / 6;
 		buttonHeight = 30;
 		this.update(result);
 		this.addPanels();
@@ -109,11 +111,12 @@ public class TablePanel extends JPanel{
 				rowPanel.add(p);
 			}
 			final int x = i;
-			JButton select = new JButton("");
+			final JButton select = new JButton("");
 			select.addActionListener(new ActionListener(){
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					listener.selectRow(table[x][0]);
+					select.setText("X");
+					listener.selectRow(table[x], select);
 				}
 				
 			});

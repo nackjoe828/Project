@@ -55,20 +55,20 @@ public class Model {
 	
 	public void getRecentHot() throws Exception
 	{
-		result = connector.select("SELECT vid, title FROM Video where count >= all(select count from video where date > now() - interval 7 day and date < now() ) and date > now() - interval 7 day and date < now() ");
+		result = connector.select("SELECT vid, title, date, count FROM Video where count >= all(select count from video where date > now() - interval 7 day and date < now() ) and date > now() - interval 7 day and date < now() ");
 	}
 	
-	public void getMostFamous() throws Exception
+	public void getMostFamous() throws Exception //work
 	{
 		result = connector.select("SELECT vid, count FROM Video	WHERE count >= all (SELECT count FROM Video) ");
 	}
 	
-	public void getInactiveUser() throws Exception
+	public void getInactiveUser() throws Exception//work
 	{
-		result = connector.select("select name, uID, email from User where uID not in (select distinct uID from History where Date >= now() - interval 90 day);");
+		result = connector.select("select name, uID, email from User where uID not in (select distinct uID from History where Date >= now() - interval 270 day);");
 	}
 	
-	public void channelavgrating(int cID) throws Exception
+	public void channelavgrating(int cID) throws Exception//work
 	{
 		String query = "select avg(h1.rat) from(select vid, avg(rating) as rat from history where vid in (select vid from video where cID = ";
 		query = query + Integer.toString(cID) + ")group by vid)h1";
@@ -76,19 +76,34 @@ public class Model {
 		result = connector.select(query);
 	}
 	
-	public void latestVideo(int cID) throws Exception
+	public void latestVideo(int cID) throws Exception //
 	{
-		String query = "select vid, title from video where date in (select max(date) from video where cid =";
+		String query = "select vid, title, date from video where date in (select max(date) from video where cid =";
 		query = query + Integer.toString(cID) + ")";
+		//System.out.println(query);
+		result = connector.select(query);
+	}
+	
+	public void recommendation(int uID) throws Exception//work
+	{
+		String query = "select distinct vid, title, date from video where viD in (select distinct f3.vID from favorites f1, favorites f2, favorites f3 where f1.uID =";
+		query = query + Integer.toString(uID) + " and f1.uID <> f2.uID and f1.vID = f2.vID and f2.uID = f3.uID and f3.vID <> f1.vID )limit 5";
 		System.out.println(query);
 		result = connector.select(query);
 	}
 	
-	public void recommendation(int uID) throws Exception
+	public void archievetable(String date) throws Exception//idk
 	{
-		String query = "select distinct f3.vID from favorites f1, favorites f2, favorites f3 where f1.uID =";
-		query = query + Integer.toString(uID) + "and f1.uID <> f2.uID and f1.vID = f2.vID and f2.uID = f3.uID and f3.vID <> f1.vID limit 5";
+		String query = "CALL ArchievTableUser(";
+		query = query + date + "); ";
 		System.out.println(query);
+		result = connector.select(query);
+
+	}
+	
+	public void getChannel(int uID) throws Exception
+	{
+		String query = "select * from channel where uID =" + uID;
 		result = connector.select(query);
 	}
 	
