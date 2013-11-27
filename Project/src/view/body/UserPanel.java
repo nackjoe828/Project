@@ -131,12 +131,17 @@ public class UserPanel extends JPanel implements WindowPanel, QueryGenerator, Ta
 			@Override
 			public void actionPerformed(ActionEvent e){
 				int rating = rateVal.getSelectedIndex() + 1;
-				if (currentType == ButtonSourceType.USER_SEARCH)
+				switch (currentType){
+				case USER_SEARCH:
+				case USER_UPLOAD:
 					sendUpdate("insert into history values (" + bPanel.getUserId()
 							+ "," + selectedTuple[0] + "," + "now(),"+rating+")");
-				else
+					break;
+				default:
 					sendUpdate("insert into history values (" + bPanel.getUserId()
 						+ "," + selectedTuple[1] + "," + "now(),"+rating+")");
+					break;
+				}
 				searchPanel.removeAll();
 				searchPanel.repaint();
 				addSearchField(searchlayout);

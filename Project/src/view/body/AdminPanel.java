@@ -196,6 +196,7 @@ public class AdminPanel extends JPanel implements WindowPanel, QueryGenerator, T
 		case ADMIN_CHANNEL:
 			//this.addChannelAverage();
 			//this.addChannelLatest();
+			headerPanel.add(new JLabel("Select an item to see options "));
 			break;
 		default:
 			break;
