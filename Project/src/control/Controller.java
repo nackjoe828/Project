@@ -17,6 +17,7 @@ public class Controller {
 	private int updateStatus;
 	private String[] user;
 	private String[] selectedTuple;
+	private String[] cID ;
 	private JTextField inputtext;
 	
 	public Controller(Model model){
@@ -48,6 +49,16 @@ public class Controller {
 					select(mFrame.selectUser());
 					setUserName();
 					mFrame.switchPage(PageType.USER);
+					model.getChannel(user[0]);
+					result = model.getResult();
+					String[] target = result.split("\n");
+					cID = new String[target.length -1];
+					for(int x= 0; x < target.length -1; x++)
+					{
+						cID[x] = target[x+1];
+						System.out.println(cID[x]);
+					}
+					
 				}
 				else mFrame.switchPage(PageType.ADMIN);
 				break;

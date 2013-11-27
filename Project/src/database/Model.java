@@ -101,9 +101,9 @@ public class Model {
 
 	}
 	
-	public void getChannel(int uID) throws Exception
+	public void getChannel(String uID) throws Exception
 	{
-		String query = "select * from channel where uID =" + uID;
+		String query = "select cID from channel where uID =" + uID;
 		result = connector.select(query);
 	}
 	
