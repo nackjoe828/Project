@@ -14,6 +14,7 @@ public class UserButtonPanel extends JPanel implements ButtonPanel{
 	private JButton upload;
 	private JButton history;
 	private JButton favorites;
+	private JButton recommend;
 	private JButton logout;
 	private NavigationPanel nPanel;
 	private SpringLayout layout;
@@ -27,6 +28,7 @@ public class UserButtonPanel extends JPanel implements ButtonPanel{
 		this.addUploadButton();
 		this.addHistoryButton();
 		this.addFavoritesButton();
+		this.addRecommend();
 		this.addLogout();
 	}
 	
@@ -73,6 +75,21 @@ public class UserButtonPanel extends JPanel implements ButtonPanel{
 		layout.putConstraint(layout.SOUTH, favorites, 40, layout.SOUTH, history);
 		layout.putConstraint(layout.EAST, favorites, -5, layout.EAST, this);
 		this.add(favorites);
+	}
+	
+	private void addRecommend(){
+		recommend = new JButton("Recommended for you!");
+		recommend.addActionListener(new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				sendAction(ButtonSourceType.USER_RECOMMEND);
+			}
+		});
+		layout.putConstraint(layout.NORTH, recommend, 5, layout.SOUTH, favorites);
+		layout.putConstraint(layout.WEST, recommend, 5, layout.WEST, this);
+		layout.putConstraint(layout.SOUTH, recommend, 40, layout.SOUTH, favorites);
+		layout.putConstraint(layout.EAST, recommend, -5, layout.EAST, this);
+		this.add(recommend);
 	}
 	
 	private void addLogout(){

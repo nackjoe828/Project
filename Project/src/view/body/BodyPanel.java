@@ -1,8 +1,10 @@
 package view.body;
 
 import java.awt.Color;
+
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 import javax.swing.SpringLayout;
 import javax.swing.border.EtchedBorder;
 
@@ -15,6 +17,7 @@ public class BodyPanel extends JPanel implements QueryGenerator{
 	
 	private MainFrame mainFrame;
 	private StartPanel sPanel;
+	private JTextField input;
 	private AdminPanel aPanel;
 	private UserPanel uPanel;
 	private String[] username;
@@ -122,6 +125,10 @@ public class BodyPanel extends JPanel implements QueryGenerator{
 	@Override
 	public void sendQuery(String query){
 		mainFrame.sendQuery(query);
+	}
+	
+	public void sendSelectedTuple(String[] row){
+		mainFrame.sendSelectedTuple(row);
 	}
 	
 	public void switchSection(ButtonSourceType type){

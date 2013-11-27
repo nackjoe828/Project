@@ -21,8 +21,12 @@ import view.body.user.UploadPanel;
 public class UserPanel extends JPanel implements WindowPanel, QueryGenerator, TableListener{
 	//private JTextArea textarea;
 	private JComboBox jcBox;
+	private JComboBox rateVal;
 	private JTextField input;
 	private JButton search;
+	private JButton watch;
+	private JButton rate;
+	private JButton delete;
 	private JPanel searchPanel;
 	private JPanel resultPanel;
 	private JPanel hSection;
@@ -33,6 +37,9 @@ public class UserPanel extends JPanel implements WindowPanel, QueryGenerator, Ta
 	private SpringLayout searchlayout;
 	private SpringLayout uploadlayout;
 	private SpringLayout resultLayout;
+	private ButtonSourceType currentType;
+	private String[] selectedTuple;
+	private JButton selectedButton;
 	
 	public UserPanel(BodyPanel bPanel){
 		super();
@@ -44,16 +51,16 @@ public class UserPanel extends JPanel implements WindowPanel, QueryGenerator, Ta
 		uploadSection.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED));
 		uploadlayout = new SpringLayout();
 		//uploadSection.setLayout(uploadlayout);
-		this.addSearchField();
+		this.createSearchField();
 	}
 	
-	private void addSearchField(){
+	private void createSearchField(){
 		searchPanel = new JPanel();
 		searchPanel.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED));
 		searchlayout = new SpringLayout();
 		searchPanel.setLayout(searchlayout);
 		
-		String[] menu = {"vid", "uid", "cid"};
+		String[] menu = {"vid", "cid"};
 		this.jcBox = new JComboBox(menu);
 		this.input = new JTextField(10);
 		this.resultPanel = new JPanel();
@@ -113,8 +120,36 @@ public class UserPanel extends JPanel implements WindowPanel, QueryGenerator, Ta
 		searchPanel.add(input);
 	}
 	
-	private void addUploadSection(SpringLayout layout){
-		
+	private void addRateField(){
+		String[] val = {"1","2","3","4","5"};
+		rateVal = new JComboBox(val);
+		rate = new JButton("Rate");
+		rate.addActionListener(new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent e){
+				int rating = rateVal.getSelectedIndex() + 1;
+				if (currentType == ButtonSourceType.USER_SEARCH)
+					sendUpdate("insert into history values (" + bPanel.getUserId()
+							+ "," + selectedTuple[0] + "," + "now(),"+rating+")");
+				else
+					sendUpdate("insert into history values (" + bPanel.getUserId()
+						+ "," + selectedTuple[1] + "," + "now(),"+rating+")");
+				searchPanel.removeAll();
+				searchPanel.repaint();
+				addSearchField(searchlayout);
+				searchPanel.revalidate();
+			}
+		});
+		searchlayout.putConstraint(searchlayout.NORTH, rateVal, 1, layout.NORTH, searchPanel);
+		searchlayout.putConstraint(searchlayout.WEST, rateVal, 1, layout.WEST, searchPanel);
+		searchlayout.putConstraint(searchlayout.SOUTH, rateVal, -1, layout.SOUTH, searchPanel);
+		searchlayout.putConstraint(searchlayout.EAST, rateVal, 100, layout.WEST, rateVal);
+		searchPanel.add(rateVal);
+		searchlayout.putConstraint(searchlayout.NORTH, rate, 1, layout.NORTH, searchPanel);
+		searchlayout.putConstraint(searchlayout.WEST, rate, 1, layout.EAST, rateVal);
+		searchlayout.putConstraint(searchlayout.SOUTH, rate, -1, layout.SOUTH, searchPanel);
+		searchlayout.putConstraint(searchlayout.EAST, rate, 200, layout.WEST, rateVal);
+		searchPanel.add(rate);
 	}
 	
 	private void createSearchButton(){
@@ -127,16 +162,61 @@ public class UserPanel extends JPanel implements WindowPanel, QueryGenerator, Ta
 				if(jcBox.getSelectedIndex() == 0) 
 					sendQuery("select * from video where vid = ?:"
 							+ input.getText());
-				else if(jcBox.getSelectedIndex() == 1)
-					sendQuery("select * from video where uid = ?:"
-							+ input.getText());
 				//if channel is selected
 				else 
-					sendQuery("select * from channel where cid = ?:"
+					sendQuery("select * from video where cid = ?:"
 							+ input.getText());
 				sendAction(ButtonSourceType.USER_SEARCH);
 			}
 		});
+	}
+	
+	public void addWatchButton(){
+		watch = new JButton("Watch");
+		watch.addActionListener(new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				searchPanel.removeAll();
+				searchPanel.repaint();
+				addRateField();
+				searchPanel.revalidate();
+			}
+		});
+		searchlayout.putConstraint(searchlayout.NORTH, watch, 1, searchlayout.NORTH, searchPanel);
+		searchlayout.putConstraint(searchlayout.WEST, watch, 1, searchlayout.WEST, searchPanel);
+		searchlayout.putConstraint(searchlayout.SOUTH, watch, -1, searchlayout.SOUTH, searchPanel);
+		searchlayout.putConstraint(searchlayout.EAST, watch, 200, searchlayout.WEST, watch);
+		searchPanel.add(watch);
+	}
+	
+	public void addDeleteButton(){
+		delete = new JButton("Delete");
+		delete.addActionListener(new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				switch (currentType){
+				case USER_HISTORY:
+					sendUpdate("delete from history where uid = " 
+							+ selectedTuple[0] + " and vid = " + selectedTuple[1]);
+					break;
+				case USER_FAVORITES:
+					sendUpdate("delete from favorites where uid = " 
+							+ selectedTuple[0] + " and vid = " + selectedTuple[1]);
+					break;
+				default:
+					break;
+				}
+				searchPanel.removeAll();
+				searchPanel.repaint();
+				addSearchField(searchlayout);
+			}
+		});
+		
+		searchlayout.putConstraint(searchlayout.NORTH, delete, 1, searchlayout.NORTH, searchPanel);
+		searchlayout.putConstraint(searchlayout.WEST, delete, 1, searchlayout.EAST, watch);
+		searchlayout.putConstraint(searchlayout.SOUTH, delete, -1, searchlayout.SOUTH, searchPanel);
+		searchlayout.putConstraint(searchlayout.EAST, delete, 200, searchlayout.WEST, delete);
+		searchPanel.add(delete);
 	}
 	
 	public String getUserId(){
@@ -160,9 +240,6 @@ public class UserPanel extends JPanel implements WindowPanel, QueryGenerator, Ta
 	public void displayFavoritesSection(){
 		this.removeAll();
 		this.addSearchPanel();
-		//this.addSearchField(searchlayout);
-		resultPanel = new JPanel();
-		resultPanel.add(new JLabel("Under Construction"));
 		this.addResultPanel();
 		this.repaint();
 	}
@@ -199,6 +276,7 @@ public class UserPanel extends JPanel implements WindowPanel, QueryGenerator, Ta
 
 	@Override
 	public void switchSection(ButtonSourceType type) {
+		this.currentType = type;
 		switch (type){
 		case USER_SEARCH:
 			displaySearchResult();
@@ -238,10 +316,35 @@ public class UserPanel extends JPanel implements WindowPanel, QueryGenerator, Ta
 	}
 
 	@Override
-	public void selectRow(String row) {
+	public void selectRow(String[] row, JButton button) {
+		this.selectedTuple = row;
+		this.selectedButton = button;
+		switch (currentType){
+		case USER_SEARCH:
+			searchPanel.removeAll();
+			this.repaint();
+			this.addWatchButton();
+			this.revalidate();
+			break;
+		case USER_UPLOAD:
+		case USER_HISTORY:
+		case USER_FAVORITES:
+			searchPanel.removeAll();
+			this.repaint();
+			this.addWatchButton();
+			this.addDeleteButton();
+			this.revalidate();
+			break;
+		default:
+			break;
+		}
+		//sendUpdate("insert into history (uid,vid,date) values (" + bPanel.getUserId() + "," + row[1] + "," + "now())");
+		//sendAction(ButtonSourceType.SELECT);
+	}
+
+	@Override
+	public void sendSelectedTuple(String[] row) {
+		// TODO Auto-generated method stub
 		
-		sendUpdate("insert into history (vid,uid,date) values ("
-				+ row + "," + bPanel.getUserId() + "," + "now())");
-		sendAction(ButtonSourceType.SELECT);
 	}
 }

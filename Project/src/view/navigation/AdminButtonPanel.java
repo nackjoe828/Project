@@ -16,6 +16,7 @@ public class AdminButtonPanel extends JPanel implements ButtonPanel{
 	private JButton video;
 	private JButton favorites;
 	private JButton channel;
+	private JButton archive;
 	private JButton logout;
 	private NavigationPanel nPanel;
 	private SpringLayout layout;
@@ -32,6 +33,7 @@ public class AdminButtonPanel extends JPanel implements ButtonPanel{
 		this.addFavorites();
 		this.addChannel();
 		this.addLogout();
+		this.addArchive();
 	}
 	
 	private void addUserButton(){
@@ -107,6 +109,21 @@ public class AdminButtonPanel extends JPanel implements ButtonPanel{
 		layout.putConstraint(layout.SOUTH, channel, 40, layout.SOUTH, favorites);
 		layout.putConstraint(layout.EAST, channel, -5, layout.EAST, this);
 		this.add(channel);
+	}
+	
+	private void addArchive(){
+		archive = new JButton("Archive");
+		archive.addActionListener(new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				sendAction(ButtonSourceType.ARCHIVE);
+			}
+		});
+		layout.putConstraint(layout.NORTH, archive, -40, layout.NORTH, logout);
+		layout.putConstraint(layout.WEST, archive, 5, layout.WEST, this);
+		layout.putConstraint(layout.SOUTH, archive, -5, layout.NORTH, logout);
+		layout.putConstraint(layout.EAST, archive, -5, layout.EAST, this);
+		this.add(archive);
 	}
 	
 	private void addLogout(){

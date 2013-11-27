@@ -79,7 +79,6 @@ public class Controller {
 				mFrame.showTable("clear", null);
 				break;
 			case ARCHIVE:
-				//System.out.println("WSDFSDFASF");
 				String input;
 				int number = JOptionPane.showConfirmDialog(null, getPanel(), "Enter Date YYYY-MM-DD", JOptionPane.OK_CANCEL_OPTION);
 				if( number == JOptionPane.OK_OPTION)
