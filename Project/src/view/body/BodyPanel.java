@@ -131,6 +131,10 @@ public class BodyPanel extends JPanel implements QueryGenerator{
 		mainFrame.sendSelectedTuple(row);
 	}
 	
+	public void setCid(String[] cId){
+		uPanel.setCid(cId);
+	}
+	
 	public void switchSection(ButtonSourceType type){
 		sPanel.switchSection(type);
 		aPanel.switchSection(type);

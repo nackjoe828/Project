@@ -26,6 +26,7 @@ public class UserPanel extends JPanel implements WindowPanel, QueryGenerator, Ta
 	private JButton search;
 	private JButton watch;
 	private JButton rate;
+	private JButton favorite;
 	private JButton delete;
 	private JPanel searchPanel;
 	private JPanel resultPanel;
@@ -38,6 +39,7 @@ public class UserPanel extends JPanel implements WindowPanel, QueryGenerator, Ta
 	private SpringLayout uploadlayout;
 	private SpringLayout resultLayout;
 	private ButtonSourceType currentType;
+	private String[] cId;
 	private String[] selectedTuple;
 	private JButton selectedButton;
 	
@@ -74,6 +76,7 @@ public class UserPanel extends JPanel implements WindowPanel, QueryGenerator, Ta
 	}
 	
 	private void addUploadPanel(){
+		uploadSection.setCid(cId);
 		//for upload panel
 		layout.putConstraint(layout.NORTH, uploadSection, 5, layout.SOUTH, searchPanel);
 		layout.putConstraint(layout.WEST, uploadSection, 5, layout.WEST, this);
@@ -189,6 +192,39 @@ public class UserPanel extends JPanel implements WindowPanel, QueryGenerator, Ta
 		searchPanel.add(watch);
 	}
 	
+	public void addFavoriteButton(){
+		favorite = new JButton("Add To Favorite");
+		favorite.addActionListener(new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				switch (currentType){
+				case USER_UPLOAD:
+					sendUpdate("insert into favorites (uid,vid) values ("
+							+ bPanel.getUserId() + "," + selectedTuple[0] + ")");
+					break;
+				case USER_HISTORY:
+				case USER_FAVORITES:
+					sendUpdate("insert into favorites (uid,vid) values ("
+							+ bPanel.getUserId() + "," + selectedTuple[1] + ")");
+					break;
+				default:
+					sendUpdate("insert into favorites (uid,vid) values ("
+						+ bPanel.getUserId() + "," + selectedTuple[0] + ")");
+					break;
+				}
+				searchPanel.removeAll();
+				searchPanel.repaint();
+				addSearchField(searchlayout);
+				
+			}
+		});
+		searchlayout.putConstraint(searchlayout.NORTH, favorite, 1, searchlayout.NORTH, searchPanel);
+		searchlayout.putConstraint(searchlayout.WEST, favorite, 1, searchlayout.EAST, watch);
+		searchlayout.putConstraint(searchlayout.SOUTH, favorite, -1, searchlayout.SOUTH, searchPanel);
+		searchlayout.putConstraint(searchlayout.EAST, favorite, 200, searchlayout.WEST, favorite);
+		searchPanel.add(favorite);
+	}
+	
 	public void addDeleteButton(){
 		delete = new JButton("Delete");
 		delete.addActionListener(new ActionListener(){
@@ -213,7 +249,7 @@ public class UserPanel extends JPanel implements WindowPanel, QueryGenerator, Ta
 		});
 		
 		searchlayout.putConstraint(searchlayout.NORTH, delete, 1, searchlayout.NORTH, searchPanel);
-		searchlayout.putConstraint(searchlayout.WEST, delete, 1, searchlayout.EAST, watch);
+		searchlayout.putConstraint(searchlayout.WEST, delete, 1, searchlayout.EAST, favorite);
 		searchlayout.putConstraint(searchlayout.SOUTH, delete, -1, searchlayout.SOUTH, searchPanel);
 		searchlayout.putConstraint(searchlayout.EAST, delete, 200, searchlayout.WEST, delete);
 		searchPanel.add(delete);
@@ -314,6 +350,12 @@ public class UserPanel extends JPanel implements WindowPanel, QueryGenerator, Ta
 	public void sendUpdate(String update) {
 		bPanel.sendUpdate(update);
 	}
+	
+	public void setCid(String[] cId){
+		this.cId = cId;
+	}
+	
+	public String[] getCid(){return cId;}
 
 	@Override
 	public void selectRow(String[] row, JButton button) {
@@ -324,14 +366,22 @@ public class UserPanel extends JPanel implements WindowPanel, QueryGenerator, Ta
 			searchPanel.removeAll();
 			this.repaint();
 			this.addWatchButton();
+			this.addFavoriteButton();
 			this.revalidate();
 			break;
 		case USER_UPLOAD:
+			searchPanel.removeAll();
+			this.repaint();
+			this.addWatchButton();
+			this.addFavoriteButton();
+			this.revalidate();
+			break;
 		case USER_HISTORY:
 		case USER_FAVORITES:
 			searchPanel.removeAll();
 			this.repaint();
 			this.addWatchButton();
+			this.addFavoriteButton();
 			this.addDeleteButton();
 			this.revalidate();
 			break;

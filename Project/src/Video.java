@@ -28,8 +28,9 @@ public class Video implements TableListener{
 		model.select("select * from user");
 		String str = model.getResult() + "\n" + model.getResult() + "\n"+ model.getResult();
 		model.select("select * from history");
+		int i = model.update("insert into video (title,cid) values('14gdsWZgs',1050)");
 		str = model.getResult();
-		System.out.println(str);
+		System.out.println(i);
 		
 		JFrame frame = new JFrame();
 		frame.setSize(600, 300);
@@ -40,10 +41,11 @@ public class Video implements TableListener{
 	}
 	
 	public void sqlTester(Model model) throws Exception{
-		int i = model.update("delete from history where uid = 7 and vid = 516");
-		model.select("select * from history");
+		int i = model.update("insert into video (cID,title) values (1052,'jfoepwag')");
+		//model.select("select * from history");
+		//model.getHigestRating();
 		System.out.println(i);
-		System.out.println(model.getResult());
+		//System.out.println(model.getResult());
 	}
 
 	public void selectRow(String[] row) {

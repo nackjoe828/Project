@@ -88,6 +88,10 @@ public class MainFrame extends JFrame implements QueryGenerator{
 		controller.show(type);
 	}
 	
+	public void setCid(String[] cId){
+		bPanel.setCid(cId);
+	}
+	
 	public void setUserName(String[] user){
 		//controller.getUserName contains labels which have to be omitted
 		nPanel.setUserName(user);

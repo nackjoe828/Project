@@ -98,16 +98,25 @@ public class Model {
 		query = query + date + "); ";
 		System.out.println(query);
 		result = connector.select(query);
+		String query2 = "CALL ArchievTableVideo";
+		query2 = query2 + date + "); ";
+		System.out.println(query2);
+		result = connector.select(query2		);
 
 	}
 	
 	public void getChannel(String uID) throws Exception
 	{
-		String query = "select cID from channel where uID =" + uID;
+		String query = "select cid from channel where uID =" + uID;
 		result = connector.select(query);
 	}
 	
-	
+	public void getHigestRating() throws Exception
+	{
+		String query = "select vid, title from video where vid in ("
+				+ "select vid from history group by vid having avg(rating) > 4)";
+		result = connector.select(query);
+	}
 	
 	
 	public String getResult(){

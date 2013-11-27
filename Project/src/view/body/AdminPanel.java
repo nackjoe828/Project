@@ -218,6 +218,7 @@ public class AdminPanel extends JPanel implements WindowPanel, QueryGenerator, T
 		case ADMIN_VIDEO:
 		case ADMIN_HISTORY:
 		case ADMIN_FAVORITES:
+			break;
 		case ADMIN_CHANNEL:
 			headerPanel.removeAll();
 			this.addChannelAverage();

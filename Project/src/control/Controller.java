@@ -56,8 +56,8 @@ public class Controller {
 					for(int x= 0; x < target.length -1; x++)
 					{
 						cID[x] = target[x+1];
-						System.out.println(cID[x]);
 					}
+					mFrame.setCid(cID);
 					
 				}
 				else mFrame.switchPage(PageType.ADMIN);
@@ -66,7 +66,6 @@ public class Controller {
 				System.out.println(selectedTuple[0]);
 				model.channelavgrating(Integer.parseInt(selectedTuple[0]));
 				result = model.getResult();
-				System.out.println("Channel Average");
 				mFrame.switchSection(type);
 				mFrame.showTable(result, null);
 				break;
@@ -74,14 +73,18 @@ public class Controller {
 				System.out.println(selectedTuple[0]);
 				model.latestVideo(Integer.parseInt(selectedTuple[0]));
 				result = model.getResult();
-				System.out.println("Lastest Video");
+				mFrame.switchSection(type);
+				mFrame.showTable(result, null);
+				break;
+			case HIGH_AVE:
+				model.getHigestRating();
+				result = model.getResult();
 				mFrame.switchSection(type);
 				mFrame.showTable(result, null);
 				break;
 			case USER_RECOMMEND:
 				model.recommendation(Integer.parseInt(user[0]));
 				result = model.getResult();
-				System.out.println("RECOMMENDATION");
 				mFrame.switchSection(type);
 				mFrame.showTable(result, null);
 				break;
@@ -135,7 +138,8 @@ public class Controller {
 				mFrame.showTable(result, null);
 				break;
 			case USER_UPLOAD:
-				select("select * from video where uid = ?:" + user[0]);
+				select("select vid, v1.cid, v1.count, title from video v1, channel c1 where c1.UID = "
+						+ user[0] + " and v1.cID = c1.cID");
 				mFrame.switchSection(type);
 				mFrame.showTable(result, null);
 				break;

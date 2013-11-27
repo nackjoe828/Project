@@ -25,6 +25,7 @@ public class UploadPanel extends JPanel implements SectionPanel, QueryGenerator{
 	private WindowPanel dPanel;
 	private JButton upload;
 	private SpringLayout layout;
+	private String[] cId;
 	
 	private static final String intro = "title to upload :";
 	
@@ -40,6 +41,17 @@ public class UploadPanel extends JPanel implements SectionPanel, QueryGenerator{
 		jcBox = new JComboBox(menu);
 		this.addUploadButton();
 		this.addLabelInput();
+	}
+	
+	public void setCid(String[] cId){
+		this.cId = cId;
+		this.remove(jcBox);
+		jcBox = new JComboBox(cId);
+		layout.putConstraint(layout.NORTH, jcBox, 5, layout.NORTH, this);
+		layout.putConstraint(layout.WEST, jcBox, 5, layout.EAST, channel);
+		layout.putConstraint(layout.SOUTH, jcBox, 40, layout.NORTH, this);
+		layout.putConstraint(layout.EAST, jcBox, -5, layout.WEST, upload);
+		this.add(jcBox);
 	}
 	
 	private void addLabelInput(){
@@ -61,12 +73,12 @@ public class UploadPanel extends JPanel implements SectionPanel, QueryGenerator{
 		layout.putConstraint(layout.SOUTH, channel, 40, layout.NORTH, this);
 		layout.putConstraint(layout.EAST, channel, 80, layout.WEST, channel);
 		this.add(channel);
-		
+		/*
 		layout.putConstraint(layout.NORTH, jcBox, 5, layout.NORTH, this);
 		layout.putConstraint(layout.WEST, jcBox, 5, layout.EAST, channel);
 		layout.putConstraint(layout.SOUTH, jcBox, 40, layout.NORTH, this);
 		layout.putConstraint(layout.EAST, jcBox, -5, layout.WEST, upload);
-		this.add(jcBox);
+		this.add(jcBox);*/
 		
 	}
 	
@@ -78,9 +90,9 @@ public class UploadPanel extends JPanel implements SectionPanel, QueryGenerator{
 		upload.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				sendUpdate("insert into video (vid, uid) values ("
-						+ vidfield.getText() + ","
-						+ ((UserPanel)dPanel).getUserId() + ")");
+				sendUpdate("insert into video (cID,title) values ("
+						+ cId[jcBox.getSelectedIndex()] + ",'"
+						+ vidfield.getText() + "')");
 				sendAction(ButtonSourceType.UPLOAD_VIDEO);
 				vidfield.setText("");
 			}

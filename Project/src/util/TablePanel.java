@@ -39,7 +39,7 @@ public class TablePanel extends JPanel{
 		layout = new SpringLayout();
 		this.setLayout(layout);
 		this.listener = listener;
-		buttonWidth = listener.getWidth() / 6;
+		buttonWidth = listener.getWidth() / 7;
 		buttonHeight = 30;
 		this.update(result);
 		this.addPanels();
